@@ -108,6 +108,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
     <script>
+        var reroute=0;
+        fetch('https://spfarmwater.github.io').then(function(response) {
+            reroute=parseInt(new Date(response.headers.get('date').replace(' GMT','')).getHours()/12)+1;
+            console.log('reroute',reroute);
+            //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
+        });
+        
         async function SubmitWater() {
             var skey = GetParams(document.getElementById('water-link').value);
             if (skey == undefined) {
@@ -121,7 +128,7 @@
 
             try {
                 for (var i = 0; i < 5; i++) {
-                    await fetch('https://spfarmwater1.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
+                    await fetch('https://spfarmwater'+reroute+'.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
                         body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
                         headers: {
                             'content-type': 'application/json'
