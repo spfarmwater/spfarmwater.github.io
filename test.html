@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="sp">
+    <title>蝦蝦果園站外澆水</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <link rel="icon" href="https://cf.shopee.tw/file/73309d626e05a133f918435e20c1a584">
+    <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#563d7c">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+        
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+        
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5946446982367537",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+
+<body class="text-center">
+    <form class="form-signin">
+        <img class="mb-4" src="https://cf.shopee.tw/file/73309d626e05a133f918435e20c1a584" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">蝦蝦果園站外澆水</h1>
+        <label for="inputEmail" class="sr-only">輸入澆水連結</label>
+        <input type="text" id="water-link" class="form-control" placeholder="輸入澆水連結" autofocus="">
+        <p></p>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="SubmitWater()">澆水</button>
+        <p class="mt-5 mb-3 text-muted">此網頁為提供非好友澆水(80滴5次)</p>
+        <p class="mt-5 mb-3 text-muted">澆水連結格式為: https://games.shopee.tw/universal-link/farm/share.html?skey=xxx&schannel=CopyLink</p>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163602881-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-163602881-1');
+    </script>
+
+    <script>
+        async function GetRoute(){
+            return await fetch('https://spfarmwater.github.io').then(function(response) {
+                var reroute=parseInt(new Date(response.headers.get('date').replace(' GMT','')).getHours()/8)+1;
+                console.log('reroute',reroute);
+                return reroute;
+                //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
+            });
+        }
+        
+        async function SubmitWater() {
+            var skey = GetParams(document.getElementById('water-link').value);
+            if (skey == undefined) {
+                bootbox.alert('Error cannot get the skey parameter.');
+                return;
+            }
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i> 正在澆水中請稍後...</p>',
+                closeButton: false
+            });
+            
+            try {
+                var reroute=await GetRoute();
+                for (var i = 0; i < 5; i++) {
+                    await fetch('https://spfarmwater'+reroute+'.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
+                        body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        method: 'POST',
+                    });
+                }
+                dialog.modal('hide');
+                bootbox.alert('澆水完成，請確認app。');
+            } catch (e) {
+                dialog.modal('hide');
+                bootbox.alert('澆水失敗，請稍後再試');
+            }
+
+        }
+
+        function GetParams(url) {
+            var regex = /[?&]([^=#]+)=([^&#]*)/g,
+                params = {},
+                match;
+            while (match = regex.exec(url)) {
+                params[match[1]] = match[2];
+            }
+            return params['skey'];
+        }
+    </script>
+
+</body>
+
+</html>
