@@ -108,12 +108,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
     <script>
-        var reroute=0;
-        fetch('https://spfarmwater.github.io').then(function(response) {
-            reroute=parseInt(new Date(response.headers.get('date').replace(' GMT','')).getHours()/12)+1;
-            console.log('reroute',reroute);
-            //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
-        });
+        async function GetRoute(){
+            fetch('https://spfarmwater.github.io').then(function(response) {
+                var reroute=parseInt(new Date(response.headers.get('date').replace(' GMT','')).getHours()/8)+1;
+                console.log('reroute',reroute);
+                return reroute;
+                //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
+            });
+        }
         
         async function SubmitWater() {
             var skey = GetParams(document.getElementById('water-link').value);
@@ -125,8 +127,9 @@
                 message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i> 正在澆水中請稍後...</p>',
                 closeButton: false
             });
-
+            
             try {
+                var reroute=await GetRoute();
                 for (var i = 0; i < 5; i++) {
                     await fetch('https://spfarmwater'+reroute+'.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
                         body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
