@@ -151,6 +151,8 @@
         async function SubmitWater() {
             var skey = GetParams(document.getElementById('water-link').value);
             if (skey == undefined) {
+                GAObject['event'] = 'skey_error';
+                dataLayer.push(GAObject);
                 bootbox.alert('Error cannot get the skey parameter.');
                 return;
             }
