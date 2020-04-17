@@ -169,6 +169,8 @@
                 var errmsg = '';
 
                 for (i = 0; i < 5; i++) {
+                    GAObject['event'] = 'send_water';
+                    dataLayer.push(GAObject);
                     var res = await fetch('https://spfarmwater' + reroute + '.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
                         body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
                         headers: {
@@ -178,8 +180,6 @@
                     }).then(function(response) {
                         return response.json();
                     }).then(function(json) {
-                        GAObject['event'] = 'send_water';
-                        dataLayer.push(GAObject);
                         if (json['code'] == 409013) {
                             GAObject['event'] = 'user_limit';
                             dataLayer.push(GAObject);
