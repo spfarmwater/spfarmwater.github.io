@@ -151,7 +151,7 @@
 
         async function SubmitWater() {
             var skey = '';
-            if (document.getElementById('water-link').value.indexOf('l.facebook.com') != 1){
+            if (document.getElementById('water-link').value.indexOf('l.facebook.com') != -1){
                 skey = GetParamsFB(document.getElementById('water-link').value);
             }
             else {
