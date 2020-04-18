@@ -150,7 +150,13 @@
         }
 
         async function SubmitWater() {
-            var skey = GetParams(document.getElementById('water-link').value);
+            var skey = '';
+            if (document.getElementById('water-link').value.indexOf('l.facebook.com') != 1){
+                skey = GetParamsFB(document.getElementById('water-link').value);
+            }
+            else {
+                skey = GetParams(document.getElementById('water-link').value);
+            }
             if (skey == undefined) {
                 GAObject['event'] = 'skey_error';
                 dataLayer.push(GAObject);
@@ -168,6 +174,8 @@
                 var errmsg = '';
 
                 for (i = 0; i < 5; i++) {
+                    GAObject['event'] = 'send_water';
+                    dataLayer.push(GAObject);
                     var res = await fetch('https://spfarmwater' + reroute + '.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
                         body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
                         headers: {
@@ -177,8 +185,6 @@
                     }).then(function(response) {
                         return response.json();
                     }).then(function(json) {
-                        GAObject['event'] = 'send_water';
-                        dataLayer.push(GAObject);
                         if (json['code'] == 409013) {
                             GAObject['event'] = 'user_limit';
                             dataLayer.push(GAObject);
@@ -192,6 +198,8 @@
                             dataLayer.push(GAObject);
                             return '作物已成熟(' + json["msg"] + ')';
                         } else if (json['code'] != 0) {
+                            GAObject['event'] = 'unexcepted_fail';
+                            dataLayer.push(GAObject);
                             return json["msg"];
                         }
                         GAObject['event'] = 'water_success';
@@ -215,9 +223,29 @@
                 bootbox.alert('澆水失敗，請稍後再試');
                 console.error(e);
             }
+            document.getElementById('water-link').value = '';
 
         }
-
+        
+        function GetParamsFB(url) {
+            var regex = /[?&]([^=#]+)=([^&#]*)/g,
+                paramsfb = {},
+                params = {},
+                match;
+            try {
+                while (match = regex.exec(url)) {
+                    paramsfb[match[1]] = match[2];
+                }
+                paramsfb['u'] = decodeURIComponent(paramsfb['u']);
+                while (match = regex.exec(paramsfb['u'])) {
+                    params[match[1]] = match[2];
+                }
+                return params['skey'];
+            } catch (e) {
+                return undefined;
+            }
+        }
+        
         function GetParams(url) {
             var regex = /[?&]([^=#]+)=([^&#]*)/g,
                 params = {},
