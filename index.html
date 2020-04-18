@@ -4,10 +4,10 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="sp">
+    <meta name="Keywords" content="蝦蝦果園,蝦皮果園,澆水,站外澆水,蝦蝦果園澆水,站外澆水不求人,站外澆水小工具,站外澆水攻略">
     <title>蝦蝦果園站外澆水</title>
 
     <!-- Bootstrap core CSS -->
@@ -151,7 +151,13 @@
         }
 
         async function SubmitWater() {
-            var skey = GetParams(document.getElementById('water-link').value);
+            var skey = '';
+            if (document.getElementById('water-link').value.indexOf('l.facebook.com') != -1){
+                skey = GetParamsFB(document.getElementById('water-link').value);
+            }
+            else {
+                skey = GetParams(document.getElementById('water-link').value);
+            }
             if (skey == undefined) {
                 GAObject['event'] = 'skey_error';
                 dataLayer.push(GAObject);
@@ -193,6 +199,8 @@
                             dataLayer.push(GAObject);
                             return '作物已成熟(' + json["msg"] + ')';
                         } else if (json['code'] != 0) {
+                            GAObject['event'] = 'unexcepted_fail';
+                            dataLayer.push(GAObject);
                             return json["msg"];
                         }
                         GAObject['event'] = 'water_success';
@@ -216,9 +224,29 @@
                 bootbox.alert('澆水失敗，請稍後再試');
                 console.error(e);
             }
+            document.getElementById('water-link').value = '';
 
         }
-
+        
+        function GetParamsFB(url) {
+            var regex = /[?&]([^=#]+)=([^&#]*)/g,
+                paramsfb = {},
+                params = {},
+                match;
+            try {
+                while (match = regex.exec(url)) {
+                    paramsfb[match[1]] = match[2];
+                }
+                paramsfb['u'] = decodeURIComponent(paramsfb['u']);
+                while (match = regex.exec(paramsfb['u'])) {
+                    params[match[1]] = match[2];
+                }
+                return params['skey'];
+            } catch (e) {
+                return undefined;
+            }
+        }
+        
         function GetParams(url) {
             var regex = /[?&]([^=#]+)=([^&#]*)/g,
                 params = {},
