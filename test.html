@@ -34,7 +34,6 @@
         })(window, document, 'script', 'dataLayer', 'GTM-58S9K9X');
     </script>
     <!-- End Google Tag Manager -->
-    <script data-ad-client="ca-pub-5946446982367537" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body>
@@ -73,7 +72,7 @@
                             </h2>
                         </div>
 
-                        <div id="collapseOne" class="collapse show text-center" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div id="collapseOne" class="collapse text-center" aria-labelledby="headingOne" data-parent="#accordionExample">
                             <div class="card-body text-center">
                                 <div class="text-center">
                                     <p></p>
@@ -173,6 +172,10 @@
 
         async function SubmitWater() {
             var skey = '';
+            if (document.getElementById('water-link').value == '') {
+                bootbox.alert('Error the input link is empty.');
+                return;
+            }
             if (document.getElementById('water-link').value.indexOf('l.facebook.com') != -1) {
                 skey = GetParamsFB(document.getElementById('water-link').value);
             } else {
