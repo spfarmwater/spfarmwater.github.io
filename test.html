@@ -34,7 +34,117 @@
         })(window, document, 'script', 'dataLayer', 'GTM-58S9K9X');
     </script>
     <!-- End Google Tag Manager -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58S9K9X" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <main role="main">
+
+        <section class="jumbotron text-center">
+            <div class="container" style="max-width:500px">
+
+                <img class="mb-4" src="https://cf.shopee.tw/file/73309d626e05a133f918435e20c1a584" alt="" width="72" height="72">
+                <h1 class="h3 mb-3 font-weight-normal">蝦蝦果園站外澆水</h1>
+                <label for="inputEmail" class="sr-only">輸入澆水連結</label>
+                <input type="text" id="water-link" class="form-control" placeholder="輸入澆水連結" autofocus="" onkeypress="return KeySubmitWater(event)">
+                <p></p>
+                <button class="btn btn-lg btn-primary btn-block" id="water-btn" type="button" onclick="SubmitWater()" disabled>澆水</button>
+                <p class="mt-5 mb-3 text-muted">此網頁為提供非好友澆水(80滴5次)</p>
+                <p class="mt-5 mb-3 text-muted">建議使用Chrome、Firefox、Safari瀏覽器來瀏覽可獲得最佳體驗</p>
+                <p class="mt-5 mb-3 text-muted">澆水連結格式為: https://games.shopee.tw/universal-link/farm/share.html?skey=xxx&schannel=CopyLink</p>
+
+            </div>
+        </section>
+
+        <section class="text-center" style="background-color: #fff;">
+            <div class="container">
+                <div class="accordion" id="accordionExample">
+                    <div class="card text-center">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <h5>使用說明</h5>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse text-center" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body text-center">
+                                <div class="text-center">
+                                    <p></p>
+                                    <h5>進入蝦蝦果園遊戲畫面，選擇"請求澆水" (箭頭指向處)</h5>
+                                    <img src="images/sp1.png" class="img-fluid w-50" alt="Responsive image">
+                                    <p></p>
+                                    <h5>選擇"複製連結" (箭頭指向處)</h5>
+                                    <p></p>
+                                    <img src="images/sp2.png" class="img-fluid w-50" alt="Responsive image">
+                                    <p></p>
+                                    <h5>再將剛複製出來的連接到此網頁"輸入澆水連結欄位"貼上你所複製的連結(長按螢幕欄位即可出現貼上選項)</h5>
+                                    <p></p>
+                                    <img src="images/sp3.png" class="img-fluid w-50" alt="Responsive image">
+                                    <p></p>
+                                    <h5>按下"澆水"按鈕後網頁會幫你自動澆水，約10-20秒即可完成。</h5>
+                                    <p></p>
+                                    <img src="images/sp4.png" class="img-fluid w-50" alt="Responsive image">
+                                    <p></p>
+                                    <img src="images/sp5.png" class="img-fluid w-50" alt="Responsive image">
+                                    <p></p>
+                                    <h5>若有任何澆水失敗情況，也會一併顯示出來。</h5>
+                                    <p></p>
+                                    <img src="images/sp6.png" class="img-fluid w-50" alt="Responsive image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card text-center">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    <h5>網頁資訊</h5>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseTwo" class="collapse text-center" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            <div class="card-body text-center">
+                                <div class="text-center">
+                                    <p></p>
+                                    <h5>
+                                      *網頁: 
+                                      <a href="https://github.com/spfarmwater/spfarmwater.github.io" target="_blank">https://github.com/spfarmwater/spfarmwater.github.io</a>
+                                    </h5>
+                                    <h5>
+                                      *伺服器:
+                                      <a href="https://github.com/Rob--W/cors-anywhere" target="_blank">cors-anywhere</a>
+                                    </h5>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-muted">
+        <div class="container">
+            <p></p>
+            <p></p>
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+            <p></p>
+            <p></p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
@@ -169,117 +279,10 @@
             }
             return params['skey'];
         }
+        window.onload = function () {
+            document.getElementById('water-btn').disabled = false;
+        }
     </script>
-</head>
-
-<body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58S9K9X" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <main role="main">
-
-        <section class="jumbotron text-center">
-            <div class="container" style="max-width:500px">
-
-                <img class="mb-4" src="https://cf.shopee.tw/file/73309d626e05a133f918435e20c1a584" alt="" width="72" height="72">
-                <h1 class="h3 mb-3 font-weight-normal">蝦蝦果園站外澆水</h1>
-                <label for="inputEmail" class="sr-only">輸入澆水連結</label>
-                <input type="text" id="water-link" class="form-control" placeholder="輸入澆水連結" autofocus="" onkeypress="return KeySubmitWater(event)">
-                <p></p>
-                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="SubmitWater()">澆水</button>
-                <p class="mt-5 mb-3 text-muted">此網頁為提供非好友澆水(80滴5次)</p>
-                <p class="mt-5 mb-3 text-muted">建議使用Chrome、Firefox、Safari瀏覽器來瀏覽可獲得最佳體驗</p>
-                <p class="mt-5 mb-3 text-muted">澆水連結格式為: https://games.shopee.tw/universal-link/farm/share.html?skey=xxx&schannel=CopyLink</p>
-
-            </div>
-        </section>
-
-        <section class="text-center" style="background-color: #fff;">
-            <div class="container">
-                <div class="accordion" id="accordionExample">
-                    <div class="card text-center">
-                        <div class="card-header" id="headingOne">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <h5>使用說明</h5>
-                                </button>
-                            </h2>
-                        </div>
-
-                        <div id="collapseOne" class="collapse text-center" aria-labelledby="headingOne" data-parent="#accordionExample">
-                            <div class="card-body text-center">
-                                <div class="text-center">
-                                    <p></p>
-                                    <h5>進入蝦蝦果園遊戲畫面，選擇"請求澆水" (箭頭指向處)</h5>
-                                    <img src="images/sp1.png" class="img-fluid w-50" alt="Responsive image">
-                                    <p></p>
-                                    <h5>選擇"複製連結" (箭頭指向處)</h5>
-                                    <p></p>
-                                    <img src="images/sp2.png" class="img-fluid w-50" alt="Responsive image">
-                                    <p></p>
-                                    <h5>再將剛複製出來的連接到此網頁"輸入澆水連結欄位"貼上你所複製的連結(長按螢幕欄位即可出現貼上選項)</h5>
-                                    <p></p>
-                                    <img src="images/sp3.png" class="img-fluid w-50" alt="Responsive image">
-                                    <p></p>
-                                    <h5>按下"澆水"按鈕後網頁會幫你自動澆水，約10-20秒即可完成。</h5>
-                                    <p></p>
-                                    <img src="images/sp4.png" class="img-fluid w-50" alt="Responsive image">
-                                    <p></p>
-                                    <img src="images/sp5.png" class="img-fluid w-50" alt="Responsive image">
-                                    <p></p>
-                                    <h5>若有任何澆水失敗情況，也會一併顯示出來。</h5>
-                                    <p></p>
-                                    <img src="images/sp6.png" class="img-fluid w-50" alt="Responsive image">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card text-center">
-                        <div class="card-header" id="headingTwo">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                    <h5>網頁資訊</h5>
-                                </button>
-                            </h2>
-                        </div>
-
-                        <div id="collapseTwo" class="collapse text-center" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                            <div class="card-body text-center">
-                                <div class="text-center">
-                                    <p></p>
-                                    <h5>
-                                      *網頁: 
-                                      <a href="https://github.com/spfarmwater/spfarmwater.github.io" target="_blank">https://github.com/spfarmwater/spfarmwater.github.io</a>
-                                    </h5>
-                                    <h5>
-                                      *伺服器:
-                                      <a href="https://github.com/Rob--W/cors-anywhere" target="_blank">cors-anywhere</a>
-                                    </h5>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="text-muted">
-        <div class="container">
-            <p></p>
-            <p></p>
-            <p class="float-right">
-                <a href="#">Back to top</a>
-            </p>
-            <p></p>
-            <p></p>
-        </div>
-    </footer>
-
 </body>
 
 </html>
