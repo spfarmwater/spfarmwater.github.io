@@ -170,15 +170,15 @@
             return params['skey'];
         }
         
-        window.onload = function () {
-            document.getElementById('water-btn').addEventListener("click", function(){
-                SubmitWater();
-            });
-            document.getElementById('water-link').addEventListener("onkeypress", function(){
-                return KeySubmitWater();
-            });
+        //window.onload = function () {
+            //document.getElementById('water-btn').addEventListener("click", function(){
+            //    SubmitWater();
+            //});
+            //document.getElementById('water-link').addEventListener("keypress", function(){
+            //    return KeySubmitWater();
+            //});
             //document.getElementById('water-btn').disabled = false;
-        }
+        //}
     </script>
 </head>
 
@@ -196,9 +196,9 @@
                 <img class="mb-4" src="https://cf.shopee.tw/file/73309d626e05a133f918435e20c1a584" alt="" width="72" height="72">
                 <h1 class="h3 mb-3 font-weight-normal">蝦蝦果園站外澆水</h1>
                 <label for="inputEmail" class="sr-only">輸入澆水連結</label>
-                <input type="text" id="water-link" class="form-control" placeholder="輸入澆水連結" autofocus="" >
+                <input type="text" id="water-link" class="form-control" placeholder="輸入澆水連結" autofocus="" onkeypress="return KeySubmitWater(event)">
                 <p></p>
-                <button class="btn btn-lg btn-primary btn-block" id="water-btn" type="button">澆水</button>
+                <button class="btn btn-lg btn-primary btn-block" id="water-btn" type="button" onclick="SubmitWater()">澆水</button>
                 <p class="mt-5 mb-3 text-muted">此網頁為提供非好友澆水(80滴5次)</p>
                 <p class="mt-5 mb-3 text-muted">建議使用Chrome、Firefox、Safari瀏覽器來瀏覽可獲得最佳體驗</p>
                 <p class="mt-5 mb-3 text-muted">澆水連結格式為: https://games.shopee.tw/universal-link/farm/share.html?skey=xxx&schannel=CopyLink</p>
