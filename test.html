@@ -90,7 +90,8 @@
                 for (i = 0; i < 5; i++) {
                     GAObject['event'] = 'send_water';
                     dataLayer.push(GAObject);
-                    var res = await fetch('https://spfarmwater' + reroute + '.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
+                    //var res = await fetch('https://spfarmwater' + reroute + '.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
+                    var res = await fetch('https://spfarmwatertest.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
                         body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
                         headers: {
                             'content-type': 'application/json'
