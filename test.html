@@ -169,15 +169,16 @@
             }
             return params['skey'];
         }
-        document.getElementById('water-btn').addEventListener("click", function(){
-            SubmitWater();
-        });
-        document.getElementById('water-link').addEventListener("onkeypress", function(){
-            return KeySubmitWater();
-        });
-        //window.onload = function () {
-        //    document.getElementById('water-btn').disabled = false;
-        //}
+        
+        window.onload = function () {
+            document.getElementById('water-btn').addEventListener("click", function(){
+                SubmitWater();
+            });
+            document.getElementById('water-link').addEventListener("onkeypress", function(){
+                return KeySubmitWater();
+            });
+            //document.getElementById('water-btn').disabled = false;
+        }
     </script>
 </head>
 
