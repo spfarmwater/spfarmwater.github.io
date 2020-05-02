@@ -43,7 +43,7 @@
         var GAObject = {};
 
         async function GetRoute() {
-            return await fetch('https://spfarmwater.github.io' + new Date().getTime()).then(function(response) {
+            return await fetch('https://spfarmwater.github.io?t=' + new Date().getTime()).then(function(response) {
                 var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
                 var reroute = parseInt(respdate.getHours() / 8) + (respdate.getDate() % 2) * 3 + 1;
                 console.log('reroute', reroute);
