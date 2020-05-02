@@ -43,7 +43,7 @@
         var GAObject = {};
 
         async function GetRoute() {
-            return await fetch('https://spfarmwater.github.io').then(function(response) {
+            return await fetch('https://spfarmwater.github.io' + new Date().getTime()).then(function(response) {
                 var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
                 var reroute = parseInt(respdate.getHours() / 8) + (respdate.getDate() % 2) * 3 + 1;
                 console.log('reroute', reroute);
@@ -55,7 +55,7 @@
         function KeySubmitWater(e) {
             if (e.keyCode == 13) {
                 //SubmitWater();
-                 document.getElementById('water-btn').click();
+                document.getElementById('water-btn').click();
                 return false;
             }
         }
@@ -170,12 +170,12 @@
             }
             return params['skey'];
         }
-        
-        window.onload = function () {
-            document.getElementById('water-btn').addEventListener("click", function(){
+
+        window.onload = function() {
+            document.getElementById('water-btn').addEventListener("click", function() {
                 SubmitWater();
             });
-            document.getElementById('water-link').addEventListener("keypress", function(e){
+            document.getElementById('water-link').addEventListener("keypress", function(e) {
                 return KeySubmitWater(e);
             });
             document.getElementById('water-btn').disabled = false;
@@ -269,7 +269,7 @@
                                       *伺服器:
                                       <a href="https://github.com/Rob--W/cors-anywhere" target="_blank">cors-anywhere</a>
                                     </h5>
-                                    
+
                                 </div>
                             </div>
                         </div>
