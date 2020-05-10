@@ -174,7 +174,7 @@
         
         async function GetStatistics() {
             var reroute = await GetRoute();
-            var num=await fetch('http://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
+            var num=await fetch('https://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
                 return response.json();
             });
             var countUp = new CountUp('totalcount', num['total']);
