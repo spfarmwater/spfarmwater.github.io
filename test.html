@@ -198,7 +198,7 @@
             };
             var countup = new CountUp('totalcount', 0, data['total'], options);
             countup.start();
-            setInterval(function(){
+            setInterval(async function(){
                 var data=await GetStatistics();
                 countup.update(data['total']);
             },60*10000);
