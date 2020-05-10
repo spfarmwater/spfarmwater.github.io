@@ -197,12 +197,15 @@
                 suffix: ''
             };
             console.log('total num',data['total']);
-            var countup = new CountUp('totalcount', 0, data['total']);
-            countup.start();
+            var tcountup = new CountUp('totalcount', 0, data['total']);
+            var ccountup = new CountUp('currentcount', 0, data['current']);
+            tcountup.start();
+            ccountup.start();
             setInterval(async function(){
                 var data=await GetStatistics();
-                countup.update(data['total']);
-            },60*10000);
+                tcountup.update(data['total']);
+                ccountup.update(data['current']);
+            },60*1000);
         }
     </script>
 </head>
@@ -225,7 +228,8 @@
                 <p></p>
                 <button class="btn btn-lg btn-primary btn-block" id="water-btn" type="button" disabled="disabled">澆水</button>
                 <p class="mt-5 mb-3 text-muted">此網頁為提供非好友澆水(80滴5次)</p>
-                <h3 class="h3 mb-3 font-weight-normal">累積使用人數: <font id="totalcount">0</font></h2>
+                <h5 class="h5 mb-3 font-weight-normal">累積使用人數: <font id="totalcount">0</font></h5>
+                <h5 class="h5 mb-3 font-weight-normal">當前線上人數: <font id="currentcount">0</font></h5>
                 <p class="mt-5 mb-3 text-danger">關於此平台匿名澆水模式作用流程 : 與使用無痕澆水方式相同，而因受限於瀏覽器跨域CORS安全性問題，需要使用CORS server來幫忙代發澆水。若有被鎖疑慮的話可以不要使用。不過認為此方式澆水可能會被鎖帳號的話表示使用無痕澆水也是一樣有可能會被鎖，因為是基於相同原理去澆水。</p>
                 <p class="mt-5 mb-3 text-muted">建議使用Chrome、Firefox、Safari瀏覽器來瀏覽可獲得最佳體驗</p>
                 <p class="mt-5 mb-3 text-muted">澆水連結格式為: https://games.shopee.tw/universal-link/farm/share.html?skey=xxx&schannel=CopyLink</p>
