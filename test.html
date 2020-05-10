@@ -299,10 +299,17 @@
             var num=await fetch('https://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
                 return response.json();
             });
-            var cup = new CountUp('totalcount', num['total']);
-            if (!cuperror) {
+            var options = {  
+                useEasing: true,
+                useGrouping: true,
+                duration: 2,
+                separator: ',',
+                decimal: '.',
+                prefix: '',
+                suffix: ''
+            };
+            var cup = new CountUp('totalcount', num['total'],options);
                 cup.start();
-            }
         }
         
         $(document).ready(function(){
