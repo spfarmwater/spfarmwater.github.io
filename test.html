@@ -177,9 +177,9 @@
             var num=await fetch('https://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
                 return response.json();
             });
-            var countUp = new CountUp('totalcount', num['total']);
-            if (!countUp.error) {
-                countUp.start();
+            var cup = new countUp('totalcount', num['total']);
+            if (!cuperror) {
+                cup.start();
             }
         }
 
