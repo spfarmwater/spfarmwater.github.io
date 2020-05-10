@@ -170,8 +170,15 @@
             }
             return params['skey'];
         }
+        
+        async function GetStatistics() {
+            var reroute = await GetRoute();
+            return await fetch('https://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
+                return response.json();
+            });    
+        }
 
-        window.onload = function() {
+        window.onload = async function() {
             document.getElementById('water-btn').addEventListener("click", function() {
                 SubmitWater();
             });
@@ -180,6 +187,21 @@
             });
             document.getElementById('water-btn').disabled = false;
             
+            var data=await GetStatistics();
+            var options = {  
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                decimal: '.',
+                prefix: '',
+                suffix: ''
+            };
+            var countup = new CountUp('totalcount', 0, data['total'], options);
+            countup.start();
+            setInterval(function(){
+                var data=await GetStatistics();
+                countup.update(data['total']);
+            },60*10000);
         }
     </script>
 </head>
@@ -293,30 +315,6 @@
             <p></p>
         </div>
     </footer>
-    <script>
-        async function GetStatistics() {
-            var reroute = await GetRoute();
-            var num=await fetch('https://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
-                return response.json();
-            });
-            var options = {  
-                useEasing: true,
-                useGrouping: true,
-                duration: 2,
-                separator: ',',
-                decimal: '.',
-                prefix: '',
-                suffix: ''
-            };
-            var cup = new CountUp('totalcount', num['total'],options);
-                cup.start();
-        }
-        
-        $(document).ready(function(){
-            GetStatistics();
-        });
-
-    </script>
 </body>
 
 </html>
