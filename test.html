@@ -38,7 +38,7 @@
     <script src="popper.min.js"></script>
     <script src="bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
-    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.5/countUp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.5/countUp.min.js"></script>
     <script>
         var GAObject = {};
 
@@ -170,22 +170,8 @@
             }
             return params['skey'];
         }
-        
-        
-        async function GetStatistics() {
-            var reroute = await GetRoute();
-            var num=await fetch('https://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
-                return response.json();
-            });
-            var cup = new CountUp('totalcount', num['total']);
-            if (!cuperror) {
-                cup.start();
-            }
-        }
-
 
         window.onload = function() {
-            GetStatistics();
             document.getElementById('water-btn').addEventListener("click", function() {
                 SubmitWater();
             });
@@ -307,6 +293,23 @@
             <p></p>
         </div>
     </footer>
+    <script>
+        async function GetStatistics() {
+            var reroute = await GetRoute();
+            var num=await fetch('https://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
+                return response.json();
+            });
+            var cup = new CountUp('totalcount', num['total']);
+            if (!cuperror) {
+                cup.start();
+            }
+        }
+
+
+        window.onload = function() {
+            GetStatistics();
+        }
+    </script>
 </body>
 
 </html>
