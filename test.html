@@ -196,6 +196,7 @@
                 prefix: '',
                 suffix: ''
             };
+            console.log('total num',data['total']);
             var countup = new CountUp('totalcount', 0, data['total'], options);
             countup.start();
             setInterval(async function(){
