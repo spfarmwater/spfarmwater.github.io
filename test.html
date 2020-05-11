@@ -63,7 +63,7 @@
         async function SubmitWater() {
             var skey = '';
             if (document.getElementById('water-link').value == '') {
-                bootbox.alert('Error the input link is empty.');
+                bootbox.alert({title:'訊息',message:'Error the input link is empty.'});
                 return;
             }
             if (document.getElementById('water-link').value.indexOf('l.facebook.com') != -1) {
@@ -74,10 +74,11 @@
             if (skey == undefined) {
                 GAObject['event'] = 'skey_error';
                 dataLayer.push(GAObject);
-                bootbox.alert('Error cannot get the skey parameter.');
+                bootbox.alert({title:'訊息',message:'Error cannot get the skey parameter.'});
                 return;
             }
             var dialog = bootbox.dialog({
+                title: '訊息',
                 message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i> 正在澆水中請稍後...</p>',
                 closeButton: false
             });
@@ -128,14 +129,14 @@
                 }
                 if (i == 0) {
                     dialog.modal('hide');
-                    bootbox.alert('澆水失敗，' + errmsg);
+                    bootbox.alert({title:'訊息',message:'澆水失敗，' + errmsg});
                 } else {
                     dialog.modal('hide');
-                    bootbox.alert('澆水完成，請確認app。');
+                    bootbox.alert({title:'訊息',message:'澆水完成，請確認app。'});
                 }
             } catch (e) {
                 dialog.modal('hide');
-                bootbox.alert('澆水失敗，請稍後再試');
+                bootbox.alert({title:'訊息',message:'澆水失敗，請稍後再試'});
                 console.error(e);
             }
             document.getElementById('water-link').value = '';
