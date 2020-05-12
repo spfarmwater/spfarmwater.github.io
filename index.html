@@ -80,7 +80,7 @@
         async function SendWater(skey,reroute) {
             GAObject['event'] = 'send_water';
             dataLayer.push(GAObject);
-            return await fetch('https://spfarmwater' + reroute + '.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
+            return await fetch('https://spfarmwater' + reroute + '-1.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
                 body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
                 headers: {
                     'content-type': 'application/json'
@@ -209,7 +209,7 @@
          
          async function GetStatistics() {
              var reroute = await GetRoute();
-             return await fetch('https://spfarmwater'+reroute+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
+             return await fetch('https://spfarmwater'+reroute+'-1.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
                  return response.json();
              });    
          }
