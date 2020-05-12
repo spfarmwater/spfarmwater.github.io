@@ -12,7 +12,7 @@
       <!-- Favicons -->
       <link rel="icon" href="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b">
       <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
-      <meta name="theme-color" content="#563d7c">
+      <meta name="theme-color" content="#FCCC04">
       <!-- Google Tag Manager -->
       <script>
          (function(w, d, s, l, i) {
@@ -40,7 +40,7 @@
          var GAObject = {};
          
          async function GetRoute() {
-             return await fetch('https://spfarmwater.github.io?t=' + new Date().getTime()).then(function(response) {
+             return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                  var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
                  var reroute = parseInt(respdate.getHours() / 8) + (respdate.getDate() % 2) * 3 + 1;
                  console.log('reroute', reroute);
@@ -57,87 +57,126 @@
              }
          }
          
-         async function SubmitWater() {
-             var skey = '';
-             if (document.getElementById('water-link').value == '') {
-                 bootbox.alert({title:'訊息',message:'Error the input link is empty.'});
-                 return;
-             }
-             if (document.getElementById('water-link').value.indexOf('l.facebook.com') != -1) {
-                 skey = GetParamsFB(document.getElementById('water-link').value);
-             } else {
-                 skey = GetParams(document.getElementById('water-link').value);
-             }
-             if (skey == undefined) {
-                 GAObject['event'] = 'skey_error';
-                 dataLayer.push(GAObject);
-                 bootbox.alert({title:'訊息',message:'Error cannot get the skey parameter.'});
-                 return;
-             }
-             var dialog = bootbox.dialog({
-                 title:'訊息',
-                 message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i> 正在澆水中請稍後...</p>',
-                 closeButton: false
-             });
+         function CheckLink() {
+            var skey='';
+            if (document.getElementById('water-link').value == '') {
+                bootbox.alert({title:'訊息',message:'Error the input link is empty.'});
+                return '';
+            }
+            if (document.getElementById('water-link').value.indexOf('l.facebook.com') != -1) {
+                skey = GetParamsFB(document.getElementById('water-link').value);
+            } else {
+                skey = GetParams(document.getElementById('water-link').value);
+            }
+            if (skey == undefined) {
+                GAObject['event'] = 'skey_error';
+                dataLayer.push(GAObject);
+                bootbox.alert({title:'訊息',message:'Error cannot get the skey parameter.'});
+                return '';
+            }
+            return skey;
+        }
          
-             try {
-                 var reroute = await GetRoute();
-                 var i = 0;
-                 var errmsg = '';
+        async function SendWater(skey,reroute) {
+            GAObject['event'] = 'send_water';
+            dataLayer.push(GAObject);
+            return await fetch('https://spfarmwater' + reroute + '.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
+                body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'POST',
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                if (json['code'] == 409013) {
+                    GAObject['event'] = 'user_limit';
+                    dataLayer.push(GAObject);
+                    return '此帳號站外澆水已滿，請再次確認(' + json["msg"] + ')';
+                } else if (json['code'] == 409005) {
+                    GAObject['event'] = 'url_expired';
+                    dataLayer.push(GAObject);
+                    return '澆水連結不存在或是已過期(' + json["msg"] + ')';
+                } else if (json['code'] == 409014) {
+                    GAObject['event'] = 'crop_harvest';
+                    dataLayer.push(GAObject);
+                    return '作物已成熟(' + json["msg"] + ')';
+                } else if (json['code'] != 0) {
+                    GAObject['event'] = 'unexcepted_fail';
+                    dataLayer.push(GAObject);
+                    return json["msg"];
+                }
+                GAObject['event'] = 'water_success';
+                dataLayer.push(GAObject);
+                return null;
+            });
+        }
          
-                 for (i = 0; i < 5; i++) {
-                     GAObject['event'] = 'send_water';
-                     dataLayer.push(GAObject);
-                     var res = await fetch('https://spfarmwater' + reroute + '.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
-                         body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
-                         headers: {
-                             'content-type': 'application/json'
-                         },
-                         method: 'POST',
-                     }).then(function(response) {
-                         return response.json();
-                     }).then(function(json) {
-                         if (json['code'] == 409013) {
-                             GAObject['event'] = 'user_limit';
-                             dataLayer.push(GAObject);
-                             return '此帳號站外澆水已滿，請再次確認(' + json["msg"] + ')';
-                         } else if (json['code'] == 409005) {
-                             GAObject['event'] = 'url_expired';
-                             dataLayer.push(GAObject);
-                             return '澆水連結不存在或是已過期(' + json["msg"] + ')';
-                         } else if (json['code'] == 409014) {
-                             GAObject['event'] = 'crop_harvest';
-                             dataLayer.push(GAObject);
-                             return '作物已成熟(' + json["msg"] + ')';
-                         } else if (json['code'] != 0) {
-                             GAObject['event'] = 'unexcepted_fail';
-                             dataLayer.push(GAObject);
-                             return json["msg"];
-                         }
-                         GAObject['event'] = 'water_success';
-                         dataLayer.push(GAObject);
-                         return null;
-                     });
-                     if (res != null) {
-                         errmsg = res;
-                         break;
-                     }
-                 }
-                 if (i == 0) {
-                     dialog.modal('hide');
-                     bootbox.alert({title:'訊息',message:'澆水失敗，' + errmsg});
-                 } else {
-                     dialog.modal('hide');
-                     bootbox.alert({title:'訊息',message:'澆水完成，請確認app。'});
-                 }
-             } catch (e) {
-                 dialog.modal('hide');
-                 bootbox.alert({title:'訊息',message:'澆水失敗，請稍後再試'});
-                 console.error(e);
-             }
-             document.getElementById('water-link').value = '';
+        async function SubmitWaterOnce() {
+            var skey = CheckLink();
+            if(skey == '') {
+                return;
+            }
+            var dialog = bootbox.dialog({
+                title: '訊息',
+                message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i> 正在澆水中請稍後...</p>',
+                closeButton: false
+            });
+            
+            try {
+                var reroute = await GetRoute();
+                var errmsg = await SendWater(skey,reroute);
+                if (errmsg != null) {
+                    dialog.modal('hide');
+                    bootbox.alert({title:'訊息',message:'澆水失敗，' + errmsg});
+                } else {
+                    dialog.modal('hide');
+                    bootbox.alert({title:'訊息',message:'澆水完成，請確認app。'});
+                }
+            } catch (e) {
+                dialog.modal('hide');
+                bootbox.alert({title:'訊息',message:'澆水失敗，請稍後再試'});
+                console.error(e);
+            }
+            
+            
+        }
          
-         }
+        async function SubmitWater() {
+            var skey = CheckLink();
+            if(skey == '') {
+                return;
+            }
+            
+            var dialog = bootbox.dialog({
+                title: '訊息',
+                message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog"></i> 正在澆水中請稍後...</p>',
+                closeButton: false
+            });
+            try {
+                var reroute = await GetRoute();
+                var i = 0;
+                var errmsg = '';
+                for (i = 0; i < 5; i++) {
+                    errmsg = await SendWater(skey,reroute);
+                    if (errmsg != null) {
+                        break;
+                    }
+                }
+                if (i == 0) {
+                    dialog.modal('hide');
+                    bootbox.alert({title:'訊息',message:'澆水失敗，' + errmsg});
+                } else {
+                    dialog.modal('hide');
+                    bootbox.alert({title:'訊息',message:'澆水完成，請確認app。'});
+                }
+            } catch (e) {
+                dialog.modal('hide');
+                bootbox.alert({title:'訊息',message:'澆水失敗，請稍後再試'});
+                console.error(e);
+            }
+            document.getElementById('water-link').value = '';
+        }
          
          function GetParamsFB(url) {
              var regex = /[?&]([^=#]+)=([^&#]*)/g,
@@ -194,6 +233,7 @@
                  return KeySubmitWater(e);
              });
              document.getElementById('water-btn').disabled = false;
+             document.getElementById('water-btn-once').disabled = false;
          
              var data=await GetStatistics();
              console.log('total num',data['total']);
@@ -223,11 +263,12 @@
                <label for="inputEmail" class="sr-only">輸入澆水連結</label>
                <input type="text" id="water-link" class="form-control" placeholder="輸入澆水連結" autofocus="">
                <p></p>
-               <button class="btn btn-lg btn-primary btn-block" id="water-btn" type="button" disabled="disabled">澆水</button>
+               <button class="btn btn-lg btn-primary btn-block" id="water-btn-once" type="button" disabled="disabled">澆水一次</button>
+               <button class="btn btn-lg btn-info btn-block" id="water-btn" type="button" disabled="disabled">一鍵全澆(5次)</button>
                <p class="mt-5 mb-3 text-muted">此網頁為提供非好友澆水(80滴5次)</p>
                <h5 class="h5 font-weight-normal">當前線上人數: <font id="currentcount">--</font></h5>
                <h5 class="h5 font-weight-normal">累積使用人數: <font id="totalcount">--</font></h5>
-               <p class="text-muted">每60秒自動更新1次(from <a href="https://www.google.com/analytics/" target="_blank">Google Analytics</a>)</p>
+               <p class="text-muted">每分鐘自動更新1次(from <a href="https://www.google.com/analytics/" target="_blank">Google Analytics</a>)</p>
                <p class="mt-5 mb-3 text-danger">關於此平台匿名澆水模式作用流程 : 與使用無痕澆水方式相同，而因受限於<a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS" target="_blank">瀏覽器跨域CORS安全性問題</a>，需要使用CORS server來幫忙代發澆水。若有被鎖疑慮的話可以不要使用。如果認為此方式澆水可能會被鎖帳號的話表示使用無痕澆水也是一樣有可能會被鎖，因為是基於相同原理去澆水。目前作者跟朋友也使用這方式自行澆水帳號都一切正常。</p>
                <p class="mt-5 mb-3 text-muted">建議使用Chrome、Firefox、Safari瀏覽器來瀏覽可獲得最佳體驗</p>
                <p class="mt-5 mb-3 text-muted">澆水連結格式為: https://games.shopee.tw/universal-link/farm/share.html?skey=xxx&schannel=CopyLink</p>
