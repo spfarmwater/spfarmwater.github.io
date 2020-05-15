@@ -77,6 +77,27 @@
             return skey;
         }
          
+        async function GetCropInfo(skey,reroute) {
+            var CROPObject={};
+            GAO['event']='crop_info';
+            fetch('https://spfarmtest.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/share_info/get?shareKey='+skey, {
+                body: null,
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'GET',
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                if(json['code']!=409005){
+                    CROPObject['crop_info']=''+json['data']['crop']['meta']['id']+'/'+json['data']['crop']['meta']['name'];
+                    CROPObject['crop_id']=json['data']['crop']['meta']['id'];
+                    CROPObject['crop_name']=json['data']['crop']['meta']['name'];
+                    dataLayer.push(CROPObject);
+                }
+            });
+        }
+         
         async function SendWater(skey,reroute) {
             GAObject['event'] = 'send_water';
             dataLayer.push(GAObject);
@@ -126,6 +147,7 @@
             try {
                 var reroute = await GetRoute();
                 var errmsg = await SendWater(skey,reroute);
+                GetCropInfo(skey,reroute);
                 if (errmsg != null) {
                     dialog.modal('hide');
                     bootbox.alert({title:'訊息',message:'澆水失敗，' + errmsg});
@@ -163,6 +185,7 @@
                         break;
                     }
                 }
+                GetCropInfo(skey,reroute);
                 if (i == 0) {
                     dialog.modal('hide');
                     bootbox.alert({title:'訊息',message:'澆水失敗，' + errmsg});
