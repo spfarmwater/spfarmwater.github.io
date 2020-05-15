@@ -41,7 +41,7 @@
          var GAObject = {};
          var CropPieChart = document.createElement('div');
          google.charts.load('current', {'packages':['corechart']});
-         google.charts.setOnLoadCallback(drawChart);
+         google.charts.setOnLoadCallback(GetCropCount);
          
          async function GetRoute() {
              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
@@ -110,7 +110,7 @@
                  var options = {'title':'作物種植比例', 'width':size, 'height':size};
                  var chart = new google.visualization.PieChart(CropPieChart);
                  chart.draw(data, options);
-  
+                 document.getElementById('cropcount-btn').disabled = false;
             });
         }
         
@@ -312,7 +312,7 @@
              });
              document.getElementById('water-btn').disabled = false;
              document.getElementById('water-btn-once').disabled = false;
-             GetCropCount();
+             
              var data=await GetStatistics();
              console.log('total num',data['total']);
              var tcountup = new CountUp('totalcount', 0, data['total']);
