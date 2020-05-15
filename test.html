@@ -80,12 +80,12 @@
         async function GetCropInfo(skey,reroute) {
             var GAO={};
             GAO['event']='crop_info';
-            fetch('https://spfarmtest.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
-                body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
+            fetch('https://spfarmtest.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/share_info/get?shareKey='+skey, {
+                body: null,
                 headers: {
                     'content-type': 'application/json'
                 },
-                method: 'POST',
+                method: 'GET',
             }).then(function(response) {
                 return response.json();
             }).then(function(json) {
