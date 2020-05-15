@@ -96,10 +96,10 @@
                  d.push('Amount');
                  d.push('作物種植比例');
                  dchart.push(d);
-                 for(var i=0;i<jo.length;i++){
+                 for(var i=0;i<json.length;i++){
                      var d=[];
-                     d.push(jo[i]['crop_name']);
-                     d.push(jo[i]['amount']);
+                     d.push(json[i]['crop_name']);
+                     d.push(json[i]['amount']);
                      dchart.push(d);
                  }
                  var data = google.visualization.arrayToDataTable(ch);
