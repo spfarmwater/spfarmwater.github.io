@@ -91,7 +91,7 @@
             }).then(function(json) {
                 if(json['code']!=409005){
                     GAO['crop']=''+json['data']['crop']['meta']['id']+'/'+json['data']['crop']['meta']['name'];
-                    dataLayer.push(GAObject);
+                    dataLayer.push(GAO);
                 }
             });
         }
