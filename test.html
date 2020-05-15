@@ -82,7 +82,7 @@
         }
         async function GetCropCount() {
             var reroute = await GetRoute();
-            fetch('http://spfarmwater'+reroute+'-1.herokuapp.com/crop/statistics?t='+new Date().getTime(), {
+            fetch('https://spfarmwater'+reroute+'-1.herokuapp.com/crop/statistics?t='+new Date().getTime(), {
                 body: null,
                 headers: {
                     'content-type': 'application/json'
