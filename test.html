@@ -104,10 +104,10 @@
                  }
                  var data = google.visualization.arrayToDataTable(dchart);
                  var size= document.documentElement.offsetWidth/4*3;
-                 if(size>450){
-                    size=450;
+                 if(size>470){
+                    size=470;
                  }
-                 var options = {'title':'作物種植比例', 'width':size, 'height':size};
+                 var options = {'title':'作物種植比例', 'width':size, 'height':size-50};
                  var chart = new google.visualization.PieChart(CropPieChart);
                  chart.draw(data, options);
                  document.getElementById('cropcount-btn').disabled = false;
