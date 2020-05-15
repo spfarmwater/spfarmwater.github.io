@@ -36,8 +36,12 @@
       <script src="bootstrap.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js">
       <script>
          var GAObject = {};
+         var CropPieChart = document.createElement('div');
+         google.charts.load('current', {'packages':['corechart']});
+         google.charts.setOnLoadCallback(drawChart);
          
          async function GetRoute() {
              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
@@ -75,6 +79,39 @@
                 return '';
             }
             return skey;
+        }
+        async function GetCropCount() {
+            var reroute = await GetRoute();
+            fetch('http://spfarmwater'+reroute+'-1.herokuapp.com/crop/statistics?t='+new Date().getTime(), {
+                body: null,
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'GET',
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                 var dchart=[];
+                 var d=[];
+                 d.push('Amount');
+                 d.push('作物種植比例');
+                 dchart.push(d);
+                 for(var i=0;i<jo.length;i++){
+                     var d=[];
+                     d.push(jo[i]['crop_name']);
+                     d.push(jo[i]['amount']);
+                     dchart.push(d);
+                 }
+                 var data = google.visualization.arrayToDataTable(ch);
+                 var size= document.documentElement.offsetWidth/4*3;
+                 if(size>480){
+                    size=480;
+                 }
+                 var options = {'title':'作物種植比例', 'width':size, 'height':size};
+                 var chart = new google.visualization.PieChart(CropPieChart);
+                 chart.draw(data, options);
+  
+            });
         }
         
         async function GetCropInfo(skey,reroute) {
@@ -257,9 +294,25 @@
              document.getElementById('water-link').addEventListener("keypress", function(e) {
                  return KeySubmitWater(e);
              });
+             document.getElementById('cropcount-btn').addEventListener("click", function() {
+                 var dialog = bootbox.dialog({
+                     title: '種植分布圖',
+                     message: '<p id="bootbox-chart-display"></p>',
+                     buttons: {	
+                         ok: {	
+                             label: "OK",	
+                             className: 'btn-primary'	
+                         }	
+                     }	
+                 });
+            
+                 dialog.init(function(){
+                     document.getElementById("bootbox-chart-display").appendChild(CropPieChart);
+                 });
+             });
              document.getElementById('water-btn').disabled = false;
              document.getElementById('water-btn-once').disabled = false;
-         
+             GetCropCount();
              var data=await GetStatistics();
              console.log('total num',data['total']);
              var tcountup = new CountUp('totalcount', 0, data['total']);
@@ -296,6 +349,7 @@
                <p></p>
                <button class="btn btn-lg btn-primary btn-block" id="water-btn-once" type="button" disabled="disabled">澆水一次</button>
                <button class="btn btn-lg btn-info btn-block" id="water-btn" type="button" disabled="disabled">一鍵全澆(5次)</button>
+               <button type="button" class="btn btn-link" id="cropcount-btn" disabled="disabled">查看種植統計狀態</button>
                <p class="mt-5 mb-3 text-muted">此網頁為提供非好友澆水(80滴5次)</p>
                <h5 class="h5 font-weight-normal">當前線上人數: <font id="currentcount">--</font></h5>
                <h5 class="h5 font-weight-normal">累積使用人數: <font id="totalcount">--</font></h5>
