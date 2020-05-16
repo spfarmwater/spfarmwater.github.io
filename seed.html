@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-TW">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+      <meta name="description" content="">
+      <meta name="author" content="sp">
+      <meta name="Keywords" content="蝦蝦果園,蝦皮果園,澆水,站外澆水,蝦蝦果園澆水,站外澆水不求人,站外澆水小工具,站外澆水攻略">
+      <title>蝦蝦果園站外澆水</title>
+      <!-- Bootstrap core CSS -->
+      <link href="https://spfarmwater.github.io/bootstrap.min.css" rel="stylesheet">
+      <!-- Favicons -->
+      <link rel="icon" href="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b">
+      <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+      <meta name="theme-color" content="#FCCC04">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W32PKMR');</script>
+<!-- End Google Tag Manager -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="popper.min.js"></script>
+      <script src="bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js"></script>
+      <script src="https://www.gstatic.com/charts/loader.js"></script>
+      <script>
+          var seed_data=null;
+          async function GetRoute() {
+              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
+                  var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
+                  var reroute = parseInt(respdate.getHours() / 8) + (respdate.getDate() % 2) * 3 + 1;
+                  console.log('reroute', reroute);
+                  return reroute;
+                  //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
+              });
+          }
+
+          function ShowInfo(e){
+              var item = seed_data.find(x=>x['id']==e);
+              var message='';
+              var GAObject = {};
+              GAObject['event']='seed_click';
+              GAObject['seed_id']=item['id'];
+              GAObject['seed_name']=item['name'];
+              GAObject['seed_info']=''+item['id']+':'+item['name'];
+              dataLayer.push(GAObject);
+              message='<table class="table table-striped table-sm"><thead><tr><th scope="col"> </th><th scope="col"> </th></tr></thead>';
+              message=message+'<tbody>';
+              message=message+'<tr><td>種植天數</td><td>'+item['config']['needDays']+'</td></tr>';
+              message=message+'<tr><td>所需水量</td><td>'+item['config']['totalExp']+'</td></tr>';
+              message=message+'<tr><td>領取數量/開放數量</td><td>'+item['curNum']+'/'+item['totalNum']+'</td></tr>';
+              message=message+'<tr><td>1人可領取次數</td><td>'+item['config']['roundsPerUser']+'&nbsp;(0為不限次數)</td></tr>';
+              message=message+'<tr><td>開放時間</td><td>'+(''+new Date(item['config']['startTime'])).split('GMT')[0]+'</td></tr>';
+              message=message+'<tr><td>結束時間</td><td>'+(''+new Date(item['config']['endTime'])).split('GMT')[0]+'</td></tr>';
+              message=message+'<tr><td>各階段所需水量</td><td>'+item['config']['levelConfig'][1]['exp']+' , '+item['config']['levelConfig'][2]['exp']+' , '+item['config']['levelConfig'][3]['exp']+'</td></tr>';
+              message=message+'</tbody></table>';
+              bootbox.dialog({  
+                 title: '['+item['id']+'] '+item['name'],   
+                 message: message,  
+                 buttons: { 
+                     ok: {  
+                         label: "OK",   
+                         className: 'btn-primary'   
+                     }  
+                 }  
+             });
+          }
+
+          window.onload = async function() {
+              var reroute = await GetRoute();
+              fetch('https://spfarmwater' + reroute + '-1.herokuapp.com/seed/lists?t=' + new Date().getTime(), {
+                  body: null,
+                  headers: {
+                      'content-type': 'application/json'
+                  },
+                  method: 'GET',
+              }).then(function(response) {
+                  return response.json();
+              }).then(function(json) {
+                  var C_ELEMENT = document.getElementById('seed-current');
+                  var P_ELEMENT = document.getElementById('seed-past');
+                  var F_ELEMENT = document.getElementById('seed-future');
+                  var C_HTML,P_HTML,F_HTML;
+                  C_HTML=P_HTML=F_HTML='';
+                  seed_data=json['data']['cropMetas'];
+                  json['data']['cropMetas'].forEach(function(item){
+                      if(item['config']['startTime'] > new Date().getTime()){
+                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                      }//future
+                      else if(item['config']['endTime'] < new Date().getTime()){
+                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                      }//past
+                      else{
+                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                      }
+
+                  });
+                  C_ELEMENT.innerHTML=C_HTML;
+                  P_ELEMENT.innerHTML=P_HTML;
+                  F_ELEMENT.innerHTML=F_HTML;
+              });          
+          
+
+          };
+      </script>
+   </head>
+   <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W32PKMR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+      <main role="main">
+         <section class="jumbotron text-center">
+            <div class="container" style="max-width:500px">
+               <img class="mb-4" src="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b" alt="" width="72" height="72">
+               <h1 class="h3 mb-3 font-weight-normal">蝦蝦果園種子資訊</h1>
+               <p class="mt-2 text-muted">此網頁資料每5分鐘更新一次(需自行手動刷新)</p>
+               <p class="mb-5 text-muted">點擊各項種子欄位即可查看詳細內容</p>
+               <button type="button" class="btn btn-link btn-lg mb-5" id="mainpage-btn" onclick="location.href='/'">回到站外澆水頁面</button>
+               <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>當前開放種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">種植天數</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-current">
+                     <tr>
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>即將開放種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">種植天數</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-future">
+                     <tr>
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>過去開放種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">種植天數</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-past">
+                     <tr>
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </section>
+      </main>
+      <footer class="text-muted">
+         <div class="container">
+            <p></p>
+            <p></p>
+            <p class="float-right">
+               <a href="#">Back to top</a>
+            </p>
+            <p></p>
+            <p></p>
+         </div>
+      </footer>
+   </body>
+</html>
