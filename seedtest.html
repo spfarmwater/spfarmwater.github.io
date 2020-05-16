@@ -41,6 +41,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           function ShowInfo(e){
               var item = seed_data.find(x=>x['id']==e);
               var message='';
+              var GAObject = {};
+              GAObject['event']='seed_click';
+              GAObject['seed_id']=item['id'];
+              GAObject['seed_name']=item['name'];
+              GAObject['seed_info']=''+item['id']+':'+item['name'];
+              dataLayer.push(GAObject);
               message='<table class="table table-striped table-sm"><thead><tr><th scope="col"> </th><th scope="col"> </th></tr></thead>';
               message=message+'<tbody>';
               message=message+'<tr><td>種植天數</td><td>'+item['config']['needDays']+'</td></tr>';
