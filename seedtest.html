@@ -76,7 +76,7 @@
 
           window.onload = async function() {
               var reroute = await GetRoute();
-              fetch('https://spfarmwater' + reroute + '-1.herokuapp.com/crop/statistics?t=' + new Date().getTime(), {
+              fetch('https://spfarmwater' + reroute + '-1.herokuapp.com/seed/lists?t=' + new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
