@@ -93,13 +93,13 @@
                   seed_data=json['data']['cropMetas'];
                   json['data']['cropMetas'].forEach(function(item){
                       if(item['config']['startTime'] > new Date().getTime()){
-                          F_HTML=F_HTML+'<tr onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//future
                       else if(item['config']['endTime'] < new Date().getTime()){
-                          P_HTML=P_HTML+'<tr onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//past
                       else{
-                          C_HTML=C_HTML+'<tr onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }
 
                   });
@@ -136,6 +136,11 @@
                      </tr>
                   </thead>
                   <tbody id="seed-current">
+                     <tr>
+                        <td>
+                           載入中請稍後...
+                        </td>
+                     </tr>
                   </tbody>
                </table>
                <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>即將開放種子</strong></h1>
@@ -149,6 +154,11 @@
                      </tr>
                   </thead>
                   <tbody id="seed-future">
+                     <tr>
+                        <td>
+                           載入中請稍後...
+                        </td>
+                     </tr>
                   </tbody>
                </table>
                <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>之前開放種子</strong></h1>
@@ -162,6 +172,11 @@
                      </tr>
                   </thead>
                   <tbody id="seed-past">
+                     <tr>
+                        <td>
+                           載入中請稍後...
+                        </td>
+                     </tr>
                   </tbody>
                </table>
             </div>
