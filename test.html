@@ -94,7 +94,7 @@
                  var dchart=[];
                  var d=[];
                  d.push('Amount');
-                 d.push('作物種植比例');
+                 d.push('作物種植統計');
                  dchart.push(d);
                  for(var i=0;i<json.length;i++){
                      var d=[];
@@ -103,12 +103,13 @@
                      dchart.push(d);
                  }
                  var data = google.visualization.arrayToDataTable(dchart);
-                 var size= document.documentElement.offsetWidth-60;
-                 
-                 if(size>465){
-                    size=465;
+                 var w = document.documentElement.offsetWidth-60;
+                 var h = w - 160;
+                 if( w > 465){
+                    sw=465;
+                    h = 280;
                  }
-                 var options = {'title':'作物種植比例', 'width':size, 'height':300};
+                 var options = {'title':'作物種植統計', 'width':w, 'height':h};
                  var chart = new google.visualization.PieChart(CropPieChart);
                  chart.draw(data, options);
                  document.getElementById('cropcount-btn').disabled = false;
@@ -297,7 +298,7 @@
              });
              document.getElementById('cropcount-btn').addEventListener("click", function() {
                  var dialog = bootbox.dialog({
-                     title: '種植分布圖',
+                     title: '種植統計圖',
                      message: '<p id="bootbox-chart-display"></p>',
                      buttons: {	
                          ok: {	
