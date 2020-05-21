@@ -321,17 +321,17 @@
              var data=await GetStatistics();
              console.log('total num',data['total']);
              var tcountup = new CountUp('totalcount', 0, data['total']);
-             var ccountup = new CountUp('currentcount', 0, data['current']);
+             //var ccountup = new CountUp('currentcount', 0, data['current']);
              //var wcountup = new CountUp('watercount', 0, data['send_water']);
              var scountup = new CountUp('wsuccesscount', 0, data['water_success']);
              tcountup.start();
-             ccountup.start();
+             //ccountup.start();
              //wcountup.start();
              scountup.start();
              setInterval(async function(){
                  var data=await GetStatistics();
                  tcountup.update(data['total']);
-                 ccountup.update(data['current']);
+                 //ccountup.update(data['current']);
                  //wcountup.update(data['send_water']);
                  scountup.update(data['water_success']);
              },60*1000);
