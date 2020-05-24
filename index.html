@@ -280,17 +280,17 @@
          
          
          window.onload = async function() {
-             //bootbox.dialog({	
-             //    title: '公告',
-             //    message:'目前澆水系統恢復正常，感謝大家耐心等候。',
-             //    //message: '<p>關於近日傳出許多因果園澆水中含有自動傳送聊聊訊息功能造成系統判斷誤鎖帳號情況。在這邊跟大家說明:目前果園遊戲<font color="red">只有站內好友互澆20滴水</font>才會有自動發送訊息的情況，使用站外澆水<font color="red">不會發送任何</font>聊聊訊息，所以使用站外澆水者大可不必擔心發送爭議訊息而導致被鎖帳號的問題。</p><p><strong>祝大家收成順利。</strong></p>',	
-             //    buttons: {	
-             //        ok: {	
-             //            label: "OK",	
-             //            className: 'btn-primary'	
-             //        }	
-             //    }	
-             //});
+             bootbox.dialog({	
+                 title: '訊息',
+                 message:'目前線上人數眾多，建議大家稍等人潮舒緩時在使用，造成您的不便敬請見諒。',
+                 //message: '<p>關於近日傳出許多因果園澆水中含有自動傳送聊聊訊息功能造成系統判斷誤鎖帳號情況。在這邊跟大家說明:目前果園遊戲<font color="red">只有站內好友互澆20滴水</font>才會有自動發送訊息的情況，使用站外澆水<font color="red">不會發送任何</font>聊聊訊息，所以使用站外澆水者大可不必擔心發送爭議訊息而導致被鎖帳號的問題。</p><p><strong>祝大家收成順利。</strong></p>',	
+                 buttons: {	
+                     ok: {	
+                         label: "OK",	
+                         className: 'btn-primary'	
+                     }	
+                 }	
+             });
              document.getElementById('water-btn').addEventListener("click", function() {
                  SubmitWater();
              });
