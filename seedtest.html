@@ -52,7 +52,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               message=message+'<tr><td>種植天數</td><td>'+item['config']['needDays']+'</td></tr>';
               message=message+'<tr><td>所需水量</td><td>'+item['config']['totalExp']+'</td></tr>';
               message=message+'<tr><td>領取數量/開放數量</td><td>'+item['curNum']+'/'+item['totalNum']+'</td></tr>';
-              message=message+'<tr><td>1人可領取次數</td><td>'+item['config']['roundsPerUser']+'&nbsp;(0為不限次數)</td></tr>';
+              message=message+'<tr><td>每人可領取次數</td><td>'+item['config']['roundsPerUser']+'&nbsp;(0為不限次數)</td></tr>';
               message=message+'<tr><td>開放時間</td><td>'+(''+new Date(item['config']['startTime'])).split('GMT')[0]+'</td></tr>';
               message=message+'<tr><td>結束時間</td><td>'+(''+new Date(item['config']['endTime'])).split('GMT')[0]+'</td></tr>';
               message=message+'<tr><td>各階段所需水量</td><td>'+item['config']['levelConfig'][1]['exp']+' , '+item['config']['levelConfig'][2]['exp']+' , '+item['config']['levelConfig'][3]['exp']+'</td></tr>';
@@ -88,13 +88,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   seed_data=json['data']['cropMetas'];
                   json['data']['cropMetas'].forEach(function(item){
                       if(item['config']['startTime'] > new Date().getTime()){
-                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+item['totalNum']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//future
                       else if(item['config']['endTime'] < new Date().getTime()){
-                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+item['totalNum']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//past
                       else{
-                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+item['totalNum']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }
 
                   });
@@ -127,6 +127,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
                         <th scope="col">種植天數</th>
+                        <th scope="col">開放數量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
@@ -145,6 +146,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
                         <th scope="col">種植天數</th>
+                        <th scope="col">開放數量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
@@ -163,6 +165,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
                         <th scope="col">種植天數</th>
+                        <th scope="col">開放數量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
