@@ -41,6 +41,7 @@
       <script>
          var GAObject = {};
          var CropPieChart = document.createElement('div');
+         var sub = Math.floor(Math.random() * 2) + 1;
          google.charts.load('current', {'packages':['corechart']});
          google.charts.setOnLoadCallback(GetCropCount);
          
@@ -48,7 +49,10 @@
              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                  var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
                  var reroute = parseInt(respdate.getHours() / 8) + (respdate.getDate() % 2) * 3 + 1;
-                 console.log('reroute', reroute);
+                 if (reroute != 3 && reroute != 6) {
+                     sub = 1;
+                 }
+                 console.log('reroute', reroute,'sub',sub);
                  return reroute;
                  //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
              });
@@ -84,7 +88,7 @@
          
         async function GetCropCount() {
             var reroute = await GetRoute();
-            fetch('https://spfarmwater'+reroute+'-1.herokuapp.com/crop/statistics?t='+new Date().getTime(), {
+            fetch('https://spfarmwater'+reroute+'-'+sub+'.herokuapp.com/crop/statistics?t='+new Date().getTime(), {
                 body: null,
                 headers: {
                     'content-type': 'application/json'
@@ -121,7 +125,7 @@
         async function GetCropInfo(skey,reroute) {
             var CROPObject={};
             CROPObject['event']='crop_info';
-            fetch('https://spfarmwater'+reroute+'-1.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/share_info/get?shareKey='+skey, {
+            fetch('https://spfarmwater'+reroute+'-'+sub+'.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/share_info/get?shareKey='+skey, {
                 body: null,
                 headers: {
                     'content-type': 'application/json'
@@ -142,7 +146,7 @@
         async function SendWater(skey,reroute) {
             GAObject['event'] = 'send_water';
             dataLayer.push(GAObject);
-            return await fetch('https://spfarmwater' + reroute + '-1.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
+            return await fetch('https://spfarmwater' + reroute + '-'+sub+'.herokuapp.com/' + 'https://games.shopee.tw/farm/api/friend/anonymous/help', {
                 body: '{"shareKey":"' + skey + '","channel":"CopyLink"}',
                 headers: {
                     'content-type': 'application/json'
@@ -273,7 +277,7 @@
          
          async function GetStatistics() {
              var reroute = await GetRoute();
-             return await fetch('https://spfarmwater'+reroute+'-1.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
+             return await fetch('https://spfarmwater'+reroute+'-'+sub+'.herokuapp.com/statistics?t=' + new Date().getTime()).then(function(response) {
                  return response.json();
              });    
          }
@@ -322,17 +326,17 @@
              var data=await GetStatistics();
              console.log('total num',data['total']);
              var tcountup = new CountUp('totalcount', 0, data['total']);
-             //var ccountup = new CountUp('currentcount', 0, data['current']);
+             var ccountup = new CountUp('currentcount', 0, data['current']);
              //var wcountup = new CountUp('watercount', 0, data['send_water']);
              var scountup = new CountUp('wsuccesscount', 0, data['water_success']);
              tcountup.start();
-             //ccountup.start();
+             ccountup.start();
              //wcountup.start();
              scountup.start();
              setInterval(async function(){
                  var data=await GetStatistics();
                  tcountup.update(data['total']);
-                 //ccountup.update(data['current']);
+                 ccountup.update(data['current']);
                  //wcountup.update(data['send_water']);
                  scountup.update(data['water_success']);
              },60*1000);
