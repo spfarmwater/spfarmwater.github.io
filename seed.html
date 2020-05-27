@@ -101,11 +101,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }
 
-                  });
-                  C_ELEMENT.innerHTML=C_HTML;
-                  P_ELEMENT.innerHTML=P_HTML;
-                  F_ELEMENT.innerHTML=F_HTML;
-                  A_ELEMENT.innerHTML=A_HTML;
+                  }); 
+                  C_ELEMENT.innerHTML=C_HTML!=''?C_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
+                  P_ELEMENT.innerHTML=P_HTML!=''?P_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
+                  F_ELEMENT.innerHTML=F_HTML!=''?F_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
+                  A_ELEMENT.innerHTML=A_HTML!=''?A_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
               });          
           
 
