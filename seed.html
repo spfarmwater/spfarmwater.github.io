@@ -83,8 +83,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   var C_ELEMENT = document.getElementById('seed-current');
                   var P_ELEMENT = document.getElementById('seed-past');
                   var F_ELEMENT = document.getElementById('seed-future');
-                  var C_HTML,P_HTML,F_HTML;
-                  C_HTML=P_HTML=F_HTML='';
+                  var A_ELEMENT = document.getElementById('seed-already');
+                  var C_HTML,P_HTML,F_HTML,A_HTML;
+                  C_HTML=P_HTML=F_HTML=A_HTML='';
                   seed_data=json['data']['cropMetas'];
                   json['data']['cropMetas'].forEach(function(item){
                       if(item['config']['startTime'] > new Date().getTime()){
@@ -93,6 +94,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       else if(item['config']['endTime'] < new Date().getTime()){
                           P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//past
+                      else if(item['curNum'] == item['totalNum']){
+                          A_HTML=A_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                      }
                       else{
                           C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }
@@ -149,6 +153,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                      </tr>
                   </thead>
                   <tbody id="seed-future">
+                     <tr>
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>已領取完畢種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">種植天數</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-already">
                      <tr>
                         <td colspan="4" class="text-center">
                            載入中,請稍後...
