@@ -31,7 +31,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           async function GetRoute() {
               return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                   var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
-                  var reroute = parseInt(respdate.getHours() / 8) + (respdate.getDate() % 2) * 3 + 1;
+                  var reroute = parseInt(respdate.getHours() / 12) + (respdate.getDate() % 2) * 2 + 1;
                   console.log('reroute', reroute);
                   return reroute;
                   //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
