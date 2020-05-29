@@ -28,6 +28,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <script src="https://www.gstatic.com/charts/loader.js"></script>
       <script>
           var seed_data=null;
+          var sub = Math.floor(Math.random() * 2) + 1;
           async function GetRoute() {
               return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                   var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
@@ -71,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
           window.onload = async function() {
               var reroute = await GetRoute();
-              fetch('https://spfarmwater' + reroute + '-1.herokuapp.com/seed/lists?t=' + new Date().getTime(), {
+              fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/seed/lists?t=' + new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
