@@ -49,7 +49,7 @@
              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                  var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
                  var reroute = parseInt(respdate.getHours() / 12) + (respdate.getDate() % 2) * 2 + 1;
-                 sub = 1;
+                 //sub = 1;
                  //if (reroute != 3 && reroute != 6) {
                  //    sub = 1;
                  //}
