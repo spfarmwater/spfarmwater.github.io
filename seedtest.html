@@ -28,10 +28,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <script src="https://www.gstatic.com/charts/loader.js"></script>
       <script>
           var seed_data=null;
+          var sub = Math.floor(Math.random() * 2) + 1;
           async function GetRoute() {
               return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                   var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
-                  var reroute = parseInt(respdate.getHours() / 8) + (respdate.getDate() % 2) * 3 + 1;
+                  var reroute = parseInt(respdate.getHours() / 12) + (respdate.getDate() % 2) * 2 + 1;
                   console.log('reroute', reroute);
                   return reroute;
                   //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
@@ -52,7 +53,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               message=message+'<tr><td>種植天數</td><td>'+item['config']['needDays']+'</td></tr>';
               message=message+'<tr><td>所需水量</td><td>'+item['config']['totalExp']+'</td></tr>';
               message=message+'<tr><td>領取數量/開放數量</td><td>'+item['curNum']+'/'+item['totalNum']+'</td></tr>';
-              message=message+'<tr><td>每人可領取次數</td><td>'+item['config']['roundsPerUser']+'&nbsp;(0為不限次數)</td></tr>';
+              message=message+'<tr><td>1人可領取次數</td><td>'+item['config']['roundsPerUser']+'&nbsp;(0為不限次數)</td></tr>';
               message=message+'<tr><td>開放時間</td><td>'+(''+new Date(item['config']['startTime'])).split('GMT')[0]+'</td></tr>';
               message=message+'<tr><td>結束時間</td><td>'+(''+new Date(item['config']['endTime'])).split('GMT')[0]+'</td></tr>';
               message=message+'<tr><td>各階段所需水量</td><td>'+item['config']['levelConfig'][1]['exp']+' , '+item['config']['levelConfig'][2]['exp']+' , '+item['config']['levelConfig'][3]['exp']+'</td></tr>';
@@ -71,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
           window.onload = async function() {
               var reroute = await GetRoute();
-              fetch('https://spfarmwater' + reroute + '-1.herokuapp.com/seed/lists?t=' + new Date().getTime(), {
+              fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/seed/lists?t=' + new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
@@ -83,24 +84,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   var C_ELEMENT = document.getElementById('seed-current');
                   var P_ELEMENT = document.getElementById('seed-past');
                   var F_ELEMENT = document.getElementById('seed-future');
-                  var C_HTML,P_HTML,F_HTML;
-                  C_HTML=P_HTML=F_HTML='';
+                  var A_ELEMENT = document.getElementById('seed-already');
+                  var C_HTML,P_HTML,F_HTML,A_HTML;
+                  C_HTML=P_HTML=F_HTML=A_HTML='';
                   seed_data=json['data']['cropMetas'];
                   json['data']['cropMetas'].forEach(function(item){
                       if(item['config']['startTime'] > new Date().getTime()){
-                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+item['totalNum']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//future
                       else if(item['config']['endTime'] < new Date().getTime()){
-                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+item['totalNum']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//past
+                      else if(item['curNum'] == item['totalNum']){
+                          A_HTML=A_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                      }
                       else{
-                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+item['totalNum']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }
 
-                  });
-                  C_ELEMENT.innerHTML=C_HTML;
-                  P_ELEMENT.innerHTML=P_HTML;
-                  F_ELEMENT.innerHTML=F_HTML;
+                  }); 
+                  C_ELEMENT.innerHTML=C_HTML!=''?C_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
+                  P_ELEMENT.innerHTML=P_HTML!=''?P_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
+                  F_ELEMENT.innerHTML=F_HTML!=''?F_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
+                  A_ELEMENT.innerHTML=A_HTML!=''?A_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
               });          
           
 
@@ -117,7 +123,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="container" style="max-width:500px">
                <img class="mb-4" src="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b" alt="" width="72" height="72">
                <h1 class="h3 mb-3 font-weight-normal">蝦蝦果園種子資訊</h1>
-               <p class="mt-2 text-muted">此網頁資料每5分鐘更新一次(需自行手動刷新)</p>
+               <p class="mt-2 text-muted">此網頁資料每分鐘更新一次(需自行手動刷新)</p>
                <p class="mb-5 text-muted">點擊各項種子欄位即可查看詳細內容</p>
                <button type="button" class="btn btn-link btn-lg mb-5" id="mainpage-btn" onclick="location.href='/'">回到站外澆水頁面</button>
                <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>當前開放種子</strong></h1>
@@ -127,13 +133,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
                         <th scope="col">種植天數</th>
-                        <th scope="col">開放數量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
                   <tbody id="seed-current">
                      <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="4" class="text-center">
                            載入中,請稍後...
                         </td>
                      </tr>
@@ -146,13 +151,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
                         <th scope="col">種植天數</th>
-                        <th scope="col">開放數量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
                   <tbody id="seed-future">
                      <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>已領取完畢種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">種植天數</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-already">
+                     <tr>
+                        <td colspan="4" class="text-center">
                            載入中,請稍後...
                         </td>
                      </tr>
@@ -165,13 +187,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
                         <th scope="col">種植天數</th>
-                        <th scope="col">開放數量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
                   <tbody id="seed-past">
                      <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="4" class="text-center">
                            載入中,請稍後...
                         </td>
                      </tr>
