@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               message=message+'<tr><td>各階段所需水量</td><td>'+item['config']['levelConfig'][1]['exp']+' , '+item['config']['levelConfig'][2]['exp']+' , '+item['config']['levelConfig'][3]['exp']+'</td></tr>';
               message=message+'</tbody></table>';
               bootbox.dialog({  
-                 title: '['+item['id']+'] '+item['name']+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="40" height="40">',   
+                 title: '['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="50" height="50">'+item['name'],   
                  message: message,  
                  buttons: { 
                      ok: {  
