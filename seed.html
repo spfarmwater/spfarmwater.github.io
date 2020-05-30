@@ -59,13 +59,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               message=message+'<tr><td>各階段所需水量</td><td>'+item['config']['levelConfig'][1]['exp']+' , '+item['config']['levelConfig'][2]['exp']+' , '+item['config']['levelConfig'][3]['exp']+'</td></tr>';
               message=message+'</tbody></table>';
               bootbox.dialog({  
-                 title: '['+item['id']+'] '+item['name'],   
+                 title: '['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="50" height="50">'+item['name'],   
                  message: message,  
                  buttons: { 
                      ok: {  
                          label: "OK",   
                          className: 'btn-primary'   
-                     }  
+                     },
+                     noclose: {
+                         label: "查看果樹成熟圖片",
+                         className: 'btn-info',
+                         callback: function(){
+                             var max_w=window.innerWidth-50;
+                             var max_h=window.innerHeight-200;
+                             bootbox.dialog({
+                                 title: '['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="50" height="50">'+item['name'],
+                                 message: '<img src="https://cf.shopee.tw/file/'+item['config']['levelConfig'][100]['img']+'" alt="crop img" style="max-width:'+max_w+'px;width:100%;max-height:'+max_h+'px;height:100%;" >',
+                                buttons: { 
+                                    ok: {  
+                                        label: "OK",   
+                                        className: 'btn-primary'   
+                                    }
+                                }
+                             });
+                             return false;
+                         }
+                     }
                  }  
              });
           }
