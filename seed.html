@@ -103,6 +103,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
           window.onload = async function() {
               var reroute = await GetRoute();
+              bootbox.dialog({
+                  title: '訊息',
+                  message: '目前官方提供種籽種植天數與實際所需水量資料有部分差距，建議各位以實際水量來做為主要評估。',
+                  buttons: { 
+                      ok: {  
+                          label: "OK",   
+                          className: 'btn-primary'   
+                      }
+                  }
+              });  
               fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/seed/lists?t=' + new Date().getTime(), {
                   body: null,
                   headers: {
@@ -121,16 +131,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   seed_data=json['data']['cropMetas'];
                   json['data']['cropMetas'].forEach(function(item){
                       if(item['config']['startTime'] > new Date().getTime()){
-                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//future
                       else if(item['config']['endTime'] < new Date().getTime()){
-                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//past
                       else if(item['curNum'] == item['totalNum'] || item['status'] == 4){
-                          A_HTML=A_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          A_HTML=A_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }
                       else{
-                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }
 
                   }); 
@@ -163,7 +173,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                      <tr>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
-                        <th scope="col">種植天數</th>
+                        <th scope="col">所需水量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
@@ -181,7 +191,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                      <tr>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
-                        <th scope="col">種植天數</th>
+                        <th scope="col">所需水量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
@@ -199,7 +209,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                      <tr>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
-                        <th scope="col">種植天數</th>
+                        <th scope="col">所需水量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
@@ -217,7 +227,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                      <tr>
                         <th scope="col">id</th>
                         <th scope="col">商品名稱</th>
-                        <th scope="col">種植天數</th>
+                        <th scope="col">所需水量</th>
                         <th scope="col">領取比率</th>
                      </tr>
                   </thead>
