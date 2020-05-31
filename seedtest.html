@@ -39,11 +39,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               });
           }
           
-          function ShowCropImg(title,img){
+          function ShowCropImg(itemid,itemname,seedimg,subtitle,img){
               var max_w=window.innerWidth-50;
               var max_h=window.innerHeight-200;
+              e_title='['+itemid+'] '+'<img src="https://cf.shopee.tw/file/'+seedimg+'" alt="seed img" width="40" height="40">'+itemname+subtitle;
               bootbox.dialog({
-                  title: title,
+                  title: e_title,
                   message: '<img src="https://cf.shopee.tw/file/'+img+'" alt="crop img" style="max-width:'+max_w+'px;width:100%;max-height:'+max_h+'px;height:100%;" >',
                   buttons: { 
                       ok: {  
@@ -74,11 +75,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               message=message+'<tr><td>各階段所需水量</td><td>'+item['config']['levelConfig'][1]['exp']+' , '+item['config']['levelConfig'][2]['exp']+' , '+item['config']['levelConfig'][3]['exp']+'</td></tr>';
               message=message+'<tr><td>各階段果樹樣貌</td>';
              
-              e_title='['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="40" height="40">'+item['name'];
-              message=message+'<td><button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+e_title+'(第1階)\',\''+item['config']['levelConfig'][1]['img']+'\');">第1階</button>';
-              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+e_title+'(第2階)\',\''+item['config']['levelConfig'][2]['img']+'\');">第2階</button>';
-              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+e_title+'(第3階)\',\''+item['config']['levelConfig'][3]['img']+'\');">第3階</button>';
-              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+e_title+'(成熟)\',\''+item['config']['levelConfig'][100]['img']+'\');">成熟</button></td></tr>';
+              
+              message=message+'<td><button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+item['id']+'\',\''+item['name']+'\',\''+item['avatarUrl']+'\',\'(第1階)\',\''+item['config']['levelConfig'][1]['img']+'\');">第1階</button>';
+              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+item['id']+'\',\''+item['name']+'\',\''+item['avatarUrl']+'\',\'(第2階)\',\''+item['config']['levelConfig'][2]['img']+'\');">第2階</button>';
+              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+item['id']+'\',\''+item['name']+'\',\''+item['avatarUrl']+'\',\'(第3階)\',\''+item['config']['levelConfig'][3]['img']+'\');">第3階</button>';
+              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+item['id']+'\',\''+item['name']+'\',\''+item['avatarUrl']+'\',\'(成熟)\',\''+item['config']['levelConfig'][100]['img']+'\');">成熟</button></td></tr>';
               message=message+'</tbody></table>';
               bootbox.dialog({  
                  title: '['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="40" height="40">'+item['name'],   
@@ -92,7 +93,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                          label: "查看果樹成熟圖片",
                          className: 'btn-info',
                          callback: function(){
-                             ShowCropImg('['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="40" height="40">'+item['name'],item['config']['levelConfig'][100]['img']);
+                             ShowCropImg(item['id'],item['name'],item['avatarUrl'],'',item['config']['levelConfig'][100]['img']);
                              return false;
                          }
                      }
