@@ -38,6 +38,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
               });
           }
+          
+          function ShowCropImg(itemid,itemname,seedimg,subtitle,img){
+              var max_w=window.innerWidth-50;
+              var max_h=window.innerHeight-200;
+              e_title='['+itemid+'] '+'<img src="https://cf.shopee.tw/file/'+seedimg+'" alt="seed img" width="40" height="40">'+itemname+subtitle;
+              bootbox.dialog({
+                  title: e_title,
+                  message: '<img src="https://cf.shopee.tw/file/'+img+'" alt="crop img" style="max-width:'+max_w+'px;width:100%;max-height:'+max_h+'px;height:100%;" >',
+                  buttons: { 
+                      ok: {  
+                          label: "OK",   
+                          className: 'btn-primary'   
+                      }
+                  }
+              });    
+          }
 
           function ShowInfo(e){
               var item = seed_data.find(x=>x['id']==e);
@@ -57,9 +73,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               message=message+'<tr><td>開放時間</td><td>'+(''+new Date(item['config']['startTime'])).split('GMT')[0]+'</td></tr>';
               message=message+'<tr><td>結束時間</td><td>'+(''+new Date(item['config']['endTime'])).split('GMT')[0]+'</td></tr>';
               message=message+'<tr><td>各階段所需水量</td><td>'+item['config']['levelConfig'][1]['exp']+' , '+item['config']['levelConfig'][2]['exp']+' , '+item['config']['levelConfig'][3]['exp']+'</td></tr>';
+              message=message+'<tr><td>各階段果樹樣貌</td>';
+             
+              
+              message=message+'<td><button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+item['id']+'\',\''+item['name']+'\',\''+item['avatarUrl']+'\',\'(第1階)\',\''+item['config']['levelConfig'][1]['img']+'\');">第1階</button>';
+              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+item['id']+'\',\''+item['name']+'\',\''+item['avatarUrl']+'\',\'(第2階)\',\''+item['config']['levelConfig'][2]['img']+'\');">第2階</button>';
+              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+item['id']+'\',\''+item['name']+'\',\''+item['avatarUrl']+'\',\'(第3階)\',\''+item['config']['levelConfig'][3]['img']+'\');">第3階</button>';
+              message=message+'<button type="button" class="btn btn-link btn-sm" onclick="ShowCropImg(\''+item['id']+'\',\''+item['name']+'\',\''+item['avatarUrl']+'\',\'(成熟)\',\''+item['config']['levelConfig'][100]['img']+'\');">成熟</button></td></tr>';
               message=message+'</tbody></table>';
               bootbox.dialog({  
-                 title: '['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="50" height="50">'+item['name'],   
+                 title: '['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="40" height="40">'+item['name'],   
                  message: message,  
                  buttons: { 
                      ok: {  
@@ -70,18 +93,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                          label: "查看果樹成熟圖片",
                          className: 'btn-info',
                          callback: function(){
-                             var max_w=window.innerWidth-50;
-                             var max_h=window.innerHeight-200;
-                             bootbox.dialog({
-                                 title: '['+item['id']+'] '+'<img src="https://cf.shopee.tw/file/'+item['avatarUrl']+'" alt="seed img" width="50" height="50">'+item['name'],
-                                 message: '<img src="https://cf.shopee.tw/file/'+item['config']['levelConfig'][100]['img']+'" alt="crop img" style="max-width:'+max_w+'px;width:100%;max-height:'+max_h+'px;height:100%;" >',
-                                buttons: { 
-                                    ok: {  
-                                        label: "OK",   
-                                        className: 'btn-primary'   
-                                    }
-                                }
-                             });
+                             ShowCropImg(item['id'],item['name'],item['avatarUrl'],'',item['config']['levelConfig'][101]['img']);
                              return false;
                          }
                      }
