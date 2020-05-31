@@ -114,7 +114,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       else if(item['config']['endTime'] < new Date().getTime()){
                           P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }//past
-                      else if(item['curNum'] == item['totalNum']){
+                      else if(item['curNum'] == item['totalNum'] || item['status'] == 4){
                           A_HTML=A_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['needDays']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                       }
                       else{
