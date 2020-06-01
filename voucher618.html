@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-TW">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+      <meta name="description" content="">
+      <meta name="author" content="sp">
+      <meta name="Keywords" content="蝦蝦果園,蝦皮果園,澆水,站外澆水,蝦蝦果園澆水,站外澆水不求人,站外澆水小工具,站外澆水攻略">
+      <title>618折扣</title>
+      <!-- Bootstrap core CSS -->
+      <link href="https://spfarmwater.github.io/bootstrap.min.css" rel="stylesheet">
+      <!-- Favicons -->
+      <link rel="icon" href="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b">
+      <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+      <meta name="theme-color" content="#FCCC04">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W32PKMR');</script>
+<!-- End Google Tag Manager -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="popper.min.js"></script>
+      <script src="bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js"></script>
+      <script src="https://www.gstatic.com/charts/loader.js"></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163602881-6"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-163602881-6');</script>
+      <script>
+          var voucher_data=null;
+          var sub = Math.floor(Math.random() * 2) + 1;
+          async function GetRoute() {
+              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
+                  var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
+                  var reroute = parseInt(respdate.getHours() / 12) + (respdate.getDate() % 2) * 2 + 1;
+                  console.log('reroute', reroute);
+                  return reroute;
+                  //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
+              });
+          }
+          
+          
+          window.onload = async function() {
+              var reroute = await GetRoute();
+               
+              fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/voucher618/text?t=' + new Date().getTime(), {
+                  body: null,
+                  headers: {
+                      'content-type': 'application/json'
+                  },
+                  method: 'GET',
+              }).then(function(response) {
+                  response.text().then(function (text) {
+                      document.getElementById('display-voucher').innerHTML=text;
+                  });
+              });       
+          
+
+          };
+      </script>
+   </head>
+   <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W32PKMR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+      <main role="main">
+         <section class="jumbotron text-center">
+            <div class="container" style="max-width:500px">
+               <h1 class="h3 mb-3 font-weight-normal">618折扣碼</h1>
+               <p class="mt-2 text-muted">此網頁資料每分鐘更新一次(需自行手動刷新)</p>
+               <h1 class="h4 mt-3 mb-3 font-weight-normal" id="display-voucher"></h1>
+               
+            </div>
+         </section>
+      </main>
+      <footer class="text-muted">
+         <div class="container">
+            <p></p>
+            <p></p>
+            <p class="float-right">
+               <a href="#">Back to top</a>
+            </p>
+            <p></p>
+            <p></p>
+         </div>
+      </footer>
+   </body>
+</html>
