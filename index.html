@@ -285,17 +285,17 @@
          
          
          window.onload = async function() {
-             //bootbox.dialog({	
-             //    title: '訊息',
-             //    message:'目前線上人數眾多，建議大家稍等人潮舒緩時在使用，造成您的不便敬請見諒。',
+             bootbox.dialog({	
+                 title: '訊息',
+                 message:'目前官方將站外澆水水量規則從每次80滴修改至10滴，在此特別告知非澆水系統之問題，祝各位收成順利。',
              //    //message: '<p>關於近日傳出許多因果園澆水中含有自動傳送聊聊訊息功能造成系統判斷誤鎖帳號情況。在這邊跟大家說明:目前果園遊戲<font color="red">只有站內好友互澆20滴水</font>才會有自動發送訊息的情況，使用站外澆水<font color="red">不會發送任何</font>聊聊訊息，所以使用站外澆水者大可不必擔心發送爭議訊息而導致被鎖帳號的問題。</p><p><strong>祝大家收成順利。</strong></p>',	
-             //    buttons: {	
-             //        ok: {	
-             //            label: "OK",	
-             //            className: 'btn-primary'	
-             //        }	
-             //    }	
-             //});
+                 buttons: {	
+                     ok: {	
+                         label: "OK",	
+                         className: 'btn-primary'	
+                     }	
+                 }	
+             });
              document.getElementById('water-btn').addEventListener("click", function() {
                  SubmitWater();
              });
@@ -329,15 +329,15 @@
              var tcountup = new CountUp('totalcount', 0, data['total']);
              var ccountup = new CountUp('currentcount', 0, data['current']);
              //var wcountup = new CountUp('watercount', 0, data['send_water']);
-             var scountup = new CountUp('wsuccesscount', 0, data['water_success']);
+             //var scountup = new CountUp('wsuccesscount', 0, data['water_success']);
              tcountup.start();
-             ccountup.start();
+             //ccountup.start();
              //wcountup.start();
              scountup.start();
              setInterval(async function(){
                  var data=await GetStatistics();
                  tcountup.update(data['total']);
-                 ccountup.update(data['current']);
+                 //ccountup.update(data['current']);
                  //wcountup.update(data['send_water']);
                  scountup.update(data['water_success']);
              },60*1000);
@@ -362,7 +362,7 @@
                <button class="btn btn-lg btn-info btn-block" id="water-btn" type="button" disabled="disabled">一鍵全澆(5次)</button>
                <button type="button" class="btn btn-link btn-lg mt-3" id="seedpage-btn" onclick="location.href='/seed.html'">查看果園種子資訊</button>
                <p><button type="button" class="btn btn-link btn-lg" id="cropcount-btn" disabled="disabled">看看其他人都種什麼</button></p>
-               <p class="mt-2 mb-3 text-muted">此網頁為提供非好友澆水(80滴5次)</p>
+               <p class="mt-2 mb-3 text-muted">此網頁為提供非好友澆水(10滴5次)</p>
                <h5 class="h5 font-weight-normal">當前線上人數: <font id="currentcount">--</font></h5>
                <h5 class="h5 font-weight-normal">累積瀏覽人數: <font id="totalcount">--</font></h5>
                <!--<h5 class="h5 font-weight-normal">累積澆水次數: <font id="watercount">--</font></h5>-->
