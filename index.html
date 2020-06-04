@@ -104,6 +104,9 @@
                  d.push('作物種植統計');
                  dchart.push(d);
                  for(var i=0;i<json.length;i++){
+                     if(json[i]['display']==false) {
+                        continue;
+                     }
                      var d=[];
                      d.push(json[i]['crop_name']);
                      d.push(json[i]['amount']);
