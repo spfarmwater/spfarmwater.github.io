@@ -126,9 +126,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       ban_HTML=ban_HTML+'<tbody>';
                       banner['data'].forEach(function(item){
                         vou_HTML='';
-                        vou_HTML=vou_HTML+'<tr style="cursor:pointer" onclick=""><th scope="row">'+item['voucher_code']+'</th><td>'+item['discount_value']+'</td><td>'+item['percentage_used']+'</td><td><a href="https://shopee.tw/search?promotionId='+item['promotionid']+'&signature='+item['signature']+'&voucherCode='+item['voucher_code']+'" target="__blank">查看</a></td></tr>';
+                        vou_HTML=vou_HTML+'<tr style="cursor:pointer" onclick=""><th scope="row">'+item['voucher_code']+'</th><td>'+((item['discount_value']!=0?item['discount_value']:item['max_value'])/100000)+'</td><td>'+item['percentage_used']+'</td><td><a href="https://shopee.tw/search?promotionId='+item['promotionid']+'&signature='+item['signature']+'&voucherCode='+item['voucher_code']+'" target="__blank">查看</a></td></tr>';
                         ban_HTML=ban_HTML+vou_HTML;
                       });
+                      if(banner['data'].length==0){
+                        ban_HTML=ban_HTML+'<td colspan="4" class="text-center">目前無資料</td>';
+                      }
 
                       ban_HTML=ban_HTML+'</tbody></table>';
                       C_HTML=C_HTML+ban_HTML;
