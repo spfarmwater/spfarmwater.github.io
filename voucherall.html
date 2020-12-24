@@ -26,6 +26,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js"></script>
       <script src="https://www.gstatic.com/charts/loader.js"></script>
+      
+      <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '1637540339762339',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v9.0'
+          });
+      
+          FB.AppEvents.logPageView();   
+      
+        };
+
+        (function(d, s, id){
+           var js, fjs = d.getElementsByTagName(s)[0];
+           if (d.getElementById(id)) {return;}
+           js = d.createElement(s); js.id = id;
+           js.src = "https://connect.facebook.net/en_US/sdk.js";
+           fjs.parentNode.insertBefore(js, fjs);
+         }(document, 'script', 'facebook-jssdk'));
+      </script>
       <script>
           var seed_data=null;
           var sub = Math.floor(Math.random() * 2) + 1;
