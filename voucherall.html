@@ -164,9 +164,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       if(banner['data']['current'].length==0&&banner['data']['next'].length==0){
                         ban_HTML=ban_HTML+'<td colspan="4" class="text-center">目前無資料</td>';
                       }
-
+                      
                       ban_HTML=ban_HTML+'</tbody></table>';
-                      C_HTML=C_HTML+ban_HTML;
+                      if(vou_HTML!=''){
+                        C_HTML=C_HTML+ban_HTML;
+                      }
 
 
                   });
