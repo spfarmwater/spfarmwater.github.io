@@ -148,7 +148,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         if(item['reward_type']!=0){
                            return;
                         }
-                        if((item['discount_percentage']<50&&item['max_value']!=0)||(item['discount_percentage']==0&&(item['discount_value']/item['min_spend'])*100<50)){
+                        if((item['discount_percentage']<50&&item['max_value']!=0&&item['discount_percentage']!=0)||(item['discount_percentage']==0&&(item['discount_value']/item['min_spend'])*100<50)){
                            return;
                         }
                         vou_HTML='';
@@ -161,7 +161,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         if(item['reward_type']!=0){
                            return;
                         }
-                        if((item['discount_percentage']<50&&item['max_value']!=0)||(item['discount_percentage']==0&&(item['discount_value']/item['min_spend'])*100<50)){
+                        if((item['discount_percentage']<50&&item['max_value']!=0&&item['discount_percentage']!=0)||(item['discount_percentage']==0&&(item['discount_value']/item['min_spend'])*100<50)){
                            return;
                         }
                         vou_HTML='';
