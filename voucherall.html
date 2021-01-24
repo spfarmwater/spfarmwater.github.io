@@ -49,6 +49,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
          }(document, 'script', 'facebook-jssdk'));
       </script>
       <script>
+          var key = new URL(window.location.href).searchParams.get("key");
           var voucher_data=[];
           var sub = Math.floor(Math.random() * 2) + 1;
           async function GetRoute() {
@@ -123,7 +124,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           window.onload = async function() {
               var reroute = await GetRoute();
 
-              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/bannervouchers?t=' + new Date().getTime(), {
+              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/bannervouchers?key='+key+'&t=' + new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
