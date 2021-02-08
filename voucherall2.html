@@ -143,10 +143,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   jo.forEach(function(site){
                      promise_arr.push(new Promise((resolve, reject) => {
 
-                      if (origin.find(element => element['url']==site['url'])['check']==jo.find(element => element['url']==site['url'])['check']){
-                         //json=JSON.parse(localStorage[site['url']]);
-                      }
-                      else {
+                      if (origin.find(element => element['url']==site['url'])==undefined || 
+                          jo.find(element => element['url']==site['url'])==undefined ||
+                          origin.find(element => element['url']==site['url'])['check']==jo.find(element => element['url']==site['url'])['check']
+                         ) {
                          
                          json=fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
                             body: null,
