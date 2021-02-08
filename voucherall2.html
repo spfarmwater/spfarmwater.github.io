@@ -124,7 +124,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           window.onload = async function() {
               var reroute = await GetRoute();
 
-              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/bannervouchers?key='+key+'&t=' + new Date().getTime(), {
+              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t=' + new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
@@ -132,15 +132,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   method: 'GET',
               }).then(function(response) {
                   return response.json();
-              }).then(function(json) {
+              }).then(function(jo) {
                   var C_ELEMENT = document.getElementById('voucher-current');
 
                   var C_HTML;
                   C_HTML='';
 
-                  json.forEach(function(banner){
+                  jo.forEach(async function(site){
                       var ban_HTML='';
                       var c_display=0,f_display=0;
+                      await fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
+                         body: null,
+                         headers: {
+                             'content-type': 'application/json'
+                         },
+                         method: 'GET',
+                      }).then(function(response) {
+                         return response.json();
+                      }).then(function(json) {
+                         
+                         
+                         
                       ban_HTML='<h1 class="h5 mt-3 mb-0 font-weight-normal"><strong>'+banner['title']+'('+banner['url']+')</strong></h1>';
                       ban_HTML=ban_HTML+'<table class="table table-striped mb-5"><thead><tr>';
                       ban_HTML=ban_HTML+'<th scope="col">code</th><th scope="col">折扣金額</th><th scope="col">使用比率</th><th scope="col">查看可使用商品(需登入)</th></tr></thead>';
@@ -186,7 +198,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         C_HTML=C_HTML+ban_HTML;
                       }
 
-
+                  });
                   });
 
                   C_ELEMENT.innerHTML=C_HTML;
