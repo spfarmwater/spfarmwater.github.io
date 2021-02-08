@@ -135,7 +135,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   return response.json();
               }).then(function(jo) {
                   var C_ELEMENT = document.getElementById('voucher-current');
-                  var origin = JSON.parse(localStorage['origin']);
+                  var origin = localStorage['origin']!=undefined ? JSON.parse(localStorage['origin']):[];
                   
                   var C_HTML;
                   C_HTML='';
