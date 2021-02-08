@@ -157,7 +157,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                          }).then(function(response) {
                             return response.json();
                          }).then(function(j){
-                            localStorage[site['url']]=JSON.stringify(json);
+                            localStorage[site['url']]=JSON.stringify(j);
                             resolve();
                          });
                          
