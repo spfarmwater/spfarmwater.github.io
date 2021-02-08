@@ -138,8 +138,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                   var C_HTML;
                   C_HTML='';
-
+                  var promise_arr=[];
                   jo.forEach(async function(site){
+                     promise_arr.push(new Promise((resolve, reject) => {
                       var ban_HTML='';
                       var c_display=0,f_display=0;
                       await fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
@@ -198,17 +199,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       if(c_display!=0||f_display!=0){
                         C_HTML=C_HTML+ban_HTML;
                       }
-                      finish=finish+1;
-                      if(finish==jo.length){
-                         C_ELEMENT.innerHTML=C_HTML;
-                      }
+                      reslove();
 
+                            });
+                        }));//promise
                   });
-                  });
+                 Promise.all(promise_arr).then(values => {
+                    C_ELEMENT.innerHTML=C_HTML;
+                 });
 
                   
-
-
 
 /*
                   seed_data=json['data']['cropMetas'];
