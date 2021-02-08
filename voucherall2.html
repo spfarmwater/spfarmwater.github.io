@@ -145,7 +145,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                       if (origin.find(element => element['url']==site['url'])==undefined || 
                           jo.find(element => element['url']==site['url'])==undefined ||
-                          origin.find(element => element['url']==site['url'])['check']==jo.find(element => element['url']==site['url'])['check']
+                          origin.find(element => element['url']==site['url'])['check']!=jo.find(element => element['url']==site['url'])['check']
                          ) {
                          
                          json=fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
