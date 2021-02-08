@@ -135,24 +135,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   return response.json();
               }).then(function(jo) {
                   var C_ELEMENT = document.getElementById('voucher-current');
-
+                  var origin = JSON.parse(localStorage['origin']);
+                  
                   var C_HTML;
                   C_HTML='';
                   var promise_arr=[];
                   jo.forEach(function(site){
-                     promise_arr.push(new Promise((resolve, reject) => {
+                     promise_arr.push(new Promise((resolve, reject) => async function(){
                       var ban_HTML='';
                       var c_display=0,f_display=0;
-                      fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
-                         body: null,
-                         headers: {
-                             'content-type': 'application/json'
-                         },
-                         method: 'GET',
-                      }).then(function(response) {
-                         return response.json();
-                      }).then(function(json) {
+                      var json={};
+                      if (origin.find(element => element['url']==site['url'])==jo.find(element => element['url']==site['url'])){
+                         json=JSON.parse(localStorage[site['url']]);
+                      }
+                      else {
                          
+                         json=await fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
+                            body: null,
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            method: 'GET',
+                         }).then(function(response) {
+                            return response.json();
+                         });
+                         localStorage[site['url']]=JSON.stringify(json);
+                      }
                          
                          
                       ban_HTML='<h1 class="h5 mt-3 mb-0 font-weight-normal"><strong>'+json['title']+'('+json['url']+')</strong></h1>';
@@ -201,10 +209,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       }
                       resolve();
 
-                            });
                         }));//promise
                   });
                  Promise.all(promise_arr).then(values => {
+                    localStorage['origin']=JSON.stringify(jo);
                     C_ELEMENT.innerHTML=C_HTML;
                  });
 
