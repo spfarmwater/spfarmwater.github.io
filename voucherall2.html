@@ -139,11 +139,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   var C_HTML;
                   C_HTML='';
                   var promise_arr=[];
-                  jo.forEach(async function(site){
+                  jo.forEach(function(site){
                      promise_arr.push(new Promise((resolve, reject) => {
                       var ban_HTML='';
                       var c_display=0,f_display=0;
-                      await fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
+                      fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
                          body: null,
                          headers: {
                              'content-type': 'application/json'
