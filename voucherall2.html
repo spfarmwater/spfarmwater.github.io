@@ -122,6 +122,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           }
 
           window.onload = async function() {
+              var finish = 0;
               var reroute = await GetRoute();
 
               fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/voucherpages?key='+key+'&t=' + new Date().getTime(), {
@@ -197,11 +198,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       if(c_display!=0||f_display!=0){
                         C_HTML=C_HTML+ban_HTML;
                       }
+                      finish=finish+1;
+                      if(finish==jo.length){
+                         C_ELEMENT.innerHTML=C_HTML;
+                      }
 
                   });
                   });
 
-                  C_ELEMENT.innerHTML=C_HTML;
+                  
 
 
 
