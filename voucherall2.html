@@ -132,6 +132,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   },
                   method: 'GET',
               }).then(function(response) {
+                  document.getElementById('loading-progress').style.width='10%';
+                  document.getElementById('loading-progress').innerHTML='10%';
                   return response.json();
               }).then(async function(jo) {
                   var C_ELEMENT = document.getElementById('voucher-current');
@@ -168,7 +170,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         
                      }).then(() => {
                         count_progress_finish++;
-                        var percent_progress=Math.round(count_progress_finish/(promise_arr.length+1)*100);
+                        var percent_progress=Math.round(count_progress_finish/(promise_arr.length+1)*90)+10;
                         document.getElementById('loading-progress').style.width=''+percent_progress+'%';
                         document.getElementById('loading-progress').innerHTML=''+percent_progress+'%';
                      }));//promise
