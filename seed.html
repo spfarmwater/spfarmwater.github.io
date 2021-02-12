@@ -164,8 +164,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
          
          function ListSeed(ELEMENT,json) {
                   var HTML='';
-                  var seed_data=json['data']['cropMetas'];
                   json['data']['cropMetas'].forEach(function(item){
+                          seed_data.push(item);
                           HTML=HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
                   }); 
                   ELEMENT.innerHTML=HTML!=''?HTML:'<td colspan="4" class="text-center">目前無資料</td>';
