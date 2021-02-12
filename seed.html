@@ -103,7 +103,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
           window.onload = async function() {
               var reroute = await GetRoute();
-              bootbox.dialog({
+             /* bootbox.dialog({
                   title: '訊息',
                   message: '目前官方提供種籽種植天數與實際所需水量資料有部分差距，建議各位以實際水量來做為主要評估。',
                   buttons: { 
@@ -112,8 +112,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           className: 'btn-primary'   
                       }
                   }
-              });  
-              fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/seed/listsall?t=' + new Date().getTime(), {
+              });  */
+              fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/seed/listpart?type=1&t=' + new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
@@ -122,36 +122,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               }).then(function(response) {
                   return response.json();
               }).then(function(json) {
-                  var C_ELEMENT = document.getElementById('seed-current');
-                  var P_ELEMENT = document.getElementById('seed-past');
-                  var F_ELEMENT = document.getElementById('seed-future');
-                  var A_ELEMENT = document.getElementById('seed-already');
-                  var C_HTML,P_HTML,F_HTML,A_HTML;
-                  C_HTML=P_HTML=F_HTML=A_HTML='';
-                  seed_data=json['data']['cropMetas'];
-                  json['data']['cropMetas'].forEach(function(item){
-                      if(item['config']['startTime'] > new Date().getTime()){
-                          F_HTML=F_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
-                      }//future
-                      else if(item['config']['endTime'] < new Date().getTime()){
-                          P_HTML=P_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
-                      }//past
-                      else if(item['curNum'] == item['totalNum'] || item['status'] == 4){
-                          A_HTML=A_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
-                      }
-                      else{
-                          C_HTML=C_HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
-                      }
-
-                  }); 
-                  C_ELEMENT.innerHTML=C_HTML!=''?C_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
-                  P_ELEMENT.innerHTML=P_HTML!=''?P_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
-                  F_ELEMENT.innerHTML=F_HTML!=''?F_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
-                  A_ELEMENT.innerHTML=A_HTML!=''?A_HTML:'<td colspan="4" class="text-center">目前無資料</td>';
-              });          
+                  ListSeed(document.getElementById('seed-current'),json);
+              });
+              fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/seed/listpart?type=2&t=' + new Date().getTime(), {
+                  body: null,
+                  headers: {
+                      'content-type': 'application/json'
+                  },
+                  method: 'GET',
+              }).then(function(response) {
+                  return response.json();
+              }).then(function(json) {
+                  ListSeed(document.getElementById('seed-future'),json);
+              }); 
+              fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/seed/listpart?type=3&t=' + new Date().getTime(), {
+                  body: null,
+                  headers: {
+                      'content-type': 'application/json'
+                  },
+                  method: 'GET',
+              }).then(function(response) {
+                  return response.json();
+              }).then(function(json) {
+                  ListSeed(document.getElementById('seed-already'),json);
+              });
+              fetch('https://spfarmwater' + reroute + '-' + sub + '.herokuapp.com/seed/listpart?type=4&t=' + new Date().getTime(), {
+                  body: null,
+                  headers: {
+                      'content-type': 'application/json'
+                  },
+                  method: 'GET',
+              }).then(function(response) {
+                  return response.json();
+              }).then(function(json) {
+                  ListSeed(document.getElementById('seed-past'),json);
+              });
+             
           
 
           };
+         
+         function ListSeed(ELEMENT,json) {
+                  var HTML='';
+                  var seed_data=json['data']['cropMetas'];
+                  json['data']['cropMetas'].forEach(function(item){
+                          HTML=HTML+'<tr style="cursor:pointer" onclick="ShowInfo('+item['id']+');"><th scope="row">'+item['id']+'</th><td>'+item['name']+'</td><td>'+item['config']['totalExp']+'</td><td>'+(item['curNum']/item['totalNum']*100).toFixed(2)+'%</td></tr>';
+                  }); 
+                  ELEMENT.innerHTML=HTML!=''?HTML:'<td colspan="4" class="text-center">目前無資料</td>';
+         }
       </script>
    </head>
    <body>
