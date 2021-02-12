@@ -27,7 +27,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js"></script>
       <script src="https://www.gstatic.com/charts/loader.js"></script>
       <script>
-          var seed_data=null;
+          var seed_data=[];
           var sub = Math.floor(Math.random() * 2) + 1;
           async function GetRoute() {
               return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
