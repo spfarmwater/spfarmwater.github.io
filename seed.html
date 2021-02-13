@@ -72,6 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               message=message+'<tr><td>1人可領取次數</td><td>'+item['config']['roundsPerUser']+'&nbsp;(0為不限次數)</td></tr>';
               message=message+'<tr><td>開放時間</td><td>'+(''+new Date(item['config']['startTime'])).split('GMT')[0]+'</td></tr>';
               message=message+'<tr><td>結束時間</td><td>'+(''+new Date(item['config']['endTime'])).split('GMT')[0]+'</td></tr>';
+              message=message+'<tr><td>更新時間</td><td>'+(''+new Date(item['UpdateTime'])).split('GMT')[0]+'</td></tr>';
               message=message+'<tr><td>各階段所需水量</td><td>'+item['config']['levelConfig'][1]['exp']+' , '+item['config']['levelConfig'][2]['exp']+' , '+item['config']['levelConfig'][3]['exp']+'</td></tr>';
               message=message+'<tr><td>各階段果樹樣貌</td>';
              
