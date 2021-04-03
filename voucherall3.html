@@ -161,6 +161,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                          }).then(function(j){
                             localStorage[site['url']]=JSON.stringify(j);
                             resolve();
+                         }).catch(function(e){
+                            localStorage.removeItem(site['url']);
+                            resolve();
                          });
                          
                       }
@@ -180,7 +183,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                    jo.forEach(function(site){
                       var ban_HTML='';
                       var c_display=0,f_display=0;
-                      var json=JSON.parse(localStorage[site['url']]);
+                      var json;
+                      if(localStorage[site['url']]==undefined){
+                         return;
+                      }
+                      json=JSON.parse(localStorage[site['url']]);
                       ban_HTML='<h1 class="h5 mt-3 mb-0 font-weight-normal"><strong>'+json['title']+'(<a href="https://shopee.tw/m/'+json['url']+'" target="_blank">'+json['url']+'</a>)</strong></h1>';
                       ban_HTML=ban_HTML+'<span class="font-weight-lighter">更新時間：'+(''+new Date(json['updatetime']*1000)).split('GMT')[0]+'</span>';
                       ban_HTML=ban_HTML+'<table class="table table-striped mb-5"><thead><tr>';
