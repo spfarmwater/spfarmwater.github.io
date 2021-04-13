@@ -125,7 +125,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               var finish = 0;
               var reroute = await GetRoute();
 
-              fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/voucherpages?key='+key+'&t=' + new Date().getTime(), {
+              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t=' + new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
@@ -150,7 +150,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           origin.find(element => element['url']==site['url'])['check']!=jo.find(element => element['url']==site['url'])['check']
                          ) {
                          
-                         json=fetch('https://spfarmwater' + reroute + '-' + '2' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
+                         json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/singlepagevouchers?key=' + key + '&t=' + new Date().getTime() + '&site=' + site['url'], {
                             body: null,
                             headers: {
                                 'content-type': 'application/json'
