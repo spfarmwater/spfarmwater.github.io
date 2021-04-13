@@ -147,7 +147,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                   var jo_sep=[];
                   while(jo.length){
-                      jo_sep.push(jo.splice(0,8));
+                      jo_sep.push(jo.splice(0,10));
                   }
 
                   jo_sep.forEach(function(site_arr){
@@ -182,6 +182,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           document.getElementById('loading-progress').innerHTML=''+percent_progress+'%';
                       }));//promise
                   });
+
+                  /*
+                  jo.forEach(function(site){
+                     promise_arr.push(new Promise((resolve, reject) => {
+
+                      if (origin.find(element => element['url']==site['url'])==undefined || 
+                          jo.find(element => element['url']==site['url'])==undefined ||
+                          origin.find(element => element['url']==site['url'])['check']!=jo.find(element => element['url']==site['url'])['check']
+                         ) {
+                         
+                         json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/singlepagevouchers?key=' + key + '&c=' + site['check'] + '&site=' + site['url'], {
+                            body: null,
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            method: 'GET',
+                         }).then(function(response) {
+                            return response.json();
+                         }).then(function(j){
+                            localStorage[site['url']]=JSON.stringify(j);
+                            resolve();
+                         }).catch(function(e){
+                            localStorage.removeItem(site['url']);
+                            resolve();
+                         });
+                            
+                         
+                      }
+                      else {
+                         resolve();
+                      }
+                        
+                     }).then(() => {
+                        count_progress_finish++;
+                        var percent_progress=Math.round(count_progress_finish/(promise_arr.length+1)*90)+10;
+                        document.getElementById('loading-progress').style.width=''+percent_progress+'%';
+                        document.getElementById('loading-progress').innerHTML=''+percent_progress+'%';
+                     }));//promise
+                   });*/
 
                    await Promise.all(promise_arr);  
                    
