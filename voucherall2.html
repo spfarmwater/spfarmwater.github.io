@@ -124,6 +124,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           window.onload = async function() {
               var finish = 0;
               var reroute = await GetRoute();
+              
+              await fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/singlepagevouchers?key=nickvoucher&site=dp');
 
               fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t=' + new Date().getTime(), {
                   body: null,
