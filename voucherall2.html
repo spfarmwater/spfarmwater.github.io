@@ -125,7 +125,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               var finish = 0;
               var reroute = await GetRoute();
               
-              await fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/singlepagevouchers?key=nickvoucher&site=dp');
 
               fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t=' + new Date().getTime(), {
                   body: null,
@@ -144,53 +143,57 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   var C_HTML;
                   C_HTML='';
                   var promise_arr=[];
-                  jo.forEach(function(site){
-                     promise_arr.push(new Promise((resolve, reject) => {
+                  var page_arr=[];
 
-                      if (origin.find(element => element['url']==site['url'])==undefined || 
-                          jo.find(element => element['url']==site['url'])==undefined ||
-                          origin.find(element => element['url']==site['url'])['check']!=jo.find(element => element['url']==site['url'])['check']
-                         ) {
-                         
-                         json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/singlepagevouchers?key=' + key + '&c=' + site['check'] + '&site=' + site['url'], {
-                            body: null,
-                            headers: {
-                                'content-type': 'application/json'
-                            },
-                            method: 'GET',
-                         }).then(function(response) {
-                            return response.json();
-                         }).then(function(j){
-                            localStorage[site['url']]=JSON.stringify(j);
-                            resolve();
-                         }).catch(function(e){
-                            localStorage.removeItem(site['url']);
-                            resolve();
-                         });
-                            
-                         
-                      }
-                      else {
-                         resolve();
-                      }
-                        
-                     }).then(() => {
-                        count_progress_finish++;
-                        var percent_progress=Math.round(count_progress_finish/(promise_arr.length+1)*90)+10;
-                        document.getElementById('loading-progress').style.width=''+percent_progress+'%';
-                        document.getElementById('loading-progress').innerHTML=''+percent_progress+'%';
-                     }));//promise
-                   });
+                  var jo_sep=[];
+                  while(jo.length){
+                      jo_sep.push(jo.splice(0,8));
+                  }
+
+                  jo_sep.forEach(function(site_arr){
+                  	  promise_arr.push(new Promise((resolve, reject) => {
+                          var query_str='';
+                          for(var i=0;i<site_arr.length;i++){
+                              query_str=query_str+'&site'+i+'='+site_arr[i]['url'];
+                          }
+                          query_str=query_str+'&num='+site_arr.length;
+                          json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/singlepagevouchers?key=' + key + query_str, {
+                                body: null,
+                                headers: {
+                                    'content-type': 'application/json'
+                                },
+                                method: 'GET',
+                             }).then(function(response) {
+                                return response.json();
+                             }).then(function(j){
+                             	j.forEach(function(site){
+                             	    page_arr.push(site);
+                             	})
+                                //localStorage[site['url']]=JSON.stringify(j);
+                                resolve();
+                             }).catch(function(e){
+                                //localStorage.removeItem(site['url']);
+                                resolve();
+                             });
+                      }).then(() => {
+                          count_progress_finish++;
+                          var percent_progress=Math.round(count_progress_finish/(promise_arr.length+1)*90)+10;
+                          document.getElementById('loading-progress').style.width=''+percent_progress+'%';
+                          document.getElementById('loading-progress').innerHTML=''+percent_progress+'%';
+                      }));//promise
+                  });
+
                    await Promise.all(promise_arr);  
                    
-                   jo.forEach(function(site){
+                   page_arr.forEach(function(site){
                       var ban_HTML='';
                       var c_display=0,f_display=0;
                       var json;
-                      if(localStorage[site['url']]==undefined){
-                         return;
-                      }
-                      json=JSON.parse(localStorage[site['url']]);
+                      //if(localStorage[site['url']]==undefined){
+                      //   return;
+                      //}
+                      //json=JSON.parse(localStorage[site['url']]);
+                      json=site;
                       ban_HTML='<h1 class="h5 mt-3 mb-0 font-weight-normal"><strong>'+json['title']+'(<a href="https://shopee.tw/m/'+json['url']+'" target="_blank">'+json['url']+'</a>)</strong></h1>';
                       ban_HTML=ban_HTML+'<span class="font-weight-lighter">refresh：'+(''+new Date(json['refreshtime']*1000)).split('GMT')[0]+'</span><br>';
                       ban_HTML=ban_HTML+'<span class="font-weight-lighter">更新時間：'+(''+new Date(json['updatetime']*1000)).split('GMT')[0]+'</span>';
