@@ -50,6 +50,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </script>
       <script>
           var key = new URL(window.location.href).searchParams.get("key");
+          var tp = new URL(window.location.href).searchParams.get("type");
           var voucher_data=[];
           var sub = Math.floor(Math.random() * 2) + 1;
           async function GetRoute() {
@@ -125,7 +126,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               var finish = 0;
               var reroute = await GetRoute();
 
-              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t=' + new Date().getTime(), {
+              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t='+'&type='+tp+'&t=' + new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
@@ -157,7 +158,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                               query_str=query_str+'&site'+i+'='+site_arr[i]['url'];
                           }
                           query_str=query_str+'&nums='+site_arr.length;
-                          json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/multipagevouchers?key=' + key + query_str, {
+                          json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/multipagevouchers?key=' + key +'&type='+tp+ query_str, {
                                 body: null,
                                 headers: {
                                     'content-type': 'application/json'
