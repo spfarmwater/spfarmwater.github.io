@@ -108,10 +108,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           function fblogin(){
               FB.getLoginStatus(function(response) {
                   console.log(response);
+                  if(response['status']=="connected"){
+                      document.getElementById('fb-button').style.display='none';
+                      document.getElementById('voucher-current').style.display='';
+                      loadvoucher();
+                  }
+                  else{
+                      bootbox.alert({title:'訊息',message:'login fail!!'});
+                  }
               });
           }
          
-          window.onload = async function() {
+          async function loadvoucher() {
               var finish = 0;
               var reroute = await GetRoute();
 
@@ -239,7 +247,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               });          
           
 
-          };
+          }
       </script>
    </head>
    <body>
@@ -255,9 +263,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                <p class="mt-2 text-muted">此網頁資料每分鐘更新一次(需自行手動刷新)</p>
                <p class="mb-5 text-muted">點擊各項折價券欄位即可查看詳細內容</p>
                
-               <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-onlogin="fblogin();" data-use-continue-as="false" data-scope="public_profile,email"></div>
-              
-               <div id="voucher-current">
+               <div id="fb-button" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-onlogin="fblogin();" data-use-continue-as="false" data-scope="public_profile,email"></div>
+               <p></p>
+               <div id="voucher-current" style="display:none">
                   <div class="progress bg-secondary">
                      <div id="loading-progress" class="progress-bar progress-bar-striped active" role="progressbar"
                           aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
