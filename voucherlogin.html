@@ -111,7 +111,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   if(response['status']=="connected"){
                       document.getElementById('fb-button').style.display='none';
                       document.getElementById('voucher-current').style.display='';
-                      loadvoucher();
+                      loadvoucher(response['authResponse']['userID'],response['authResponse']['accessToken']);
                   }
                   else{
                       bootbox.alert({title:'訊息',message:'login fail!!'});
@@ -119,14 +119,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               });
           }
          
-          async function loadvoucher() {
+          async function loadvoucher(fbid,fbtoken) {
               var finish = 0;
               var reroute = await GetRoute();
 
               fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t='+'&type='+tp+'&t=' + new Date().getTime(), {
                   body: null,
                   headers: {
-                      'content-type': 'application/json'
+                      'content-type': 'application/json',
+                      'fbid':fbid,
+                      'fbtoken':fbtoken
                   },
                   method: 'GET',
               }).then(function(response) {
@@ -158,7 +160,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/multipagevouchers?key=' + key +'&type='+tp+ query_str, {
                                 body: null,
                                 headers: {
-                                    'content-type': 'application/json'
+                                    'content-type': 'application/json',
+                                    'fbid':fbid,
+                                    'fbtoken':fbtoken
                                 },
                                 method: 'GET',
                              }).then(function(response) {
