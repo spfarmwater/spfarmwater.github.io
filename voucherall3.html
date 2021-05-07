@@ -27,27 +27,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js"></script>
       <script src="https://www.gstatic.com/charts/loader.js"></script>
       
-      <script>
-        window.fbAsyncInit = function() {
-          FB.init({
-            appId      : '1637540339762339',
-            cookie     : true,
-            xfbml      : true,
-            version    : 'v9.0'
-          });
-      
-          FB.AppEvents.logPageView();   
-      
-        };
+      <div id="fb-root"></div>
+      <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=321379609400904&autoLogAppEvents=1" nonce="e7s6FfCM"></script>
 
-        (function(d, s, id){
-           var js, fjs = d.getElementsByTagName(s)[0];
-           if (d.getElementById(id)) {return;}
-           js = d.createElement(s); js.id = id;
-           js.src = "https://connect.facebook.net/en_US/sdk.js";
-           fjs.parentNode.insertBefore(js, fjs);
-         }(document, 'script', 'facebook-jssdk'));
-      </script>
       <script>
           var key = new URL(window.location.href).searchParams.get("key");
           var tp = new URL(window.location.href).searchParams.get("type");
@@ -122,14 +104,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
              });
           }
 
-          window.onload = async function() {
+          function fblogin(){
+              FB.getLoginStatus(function(response) {
+                  console.log(response);
+                  if(response['status']=="connected"){
+                      document.getElementById('fb-button').style.display='none';
+                      document.getElementById('voucher-current').style.display='';
+                      loadvoucher(response['authResponse']['userID'],response['authResponse']['accessToken']);
+                  }
+                  else{
+                      bootbox.alert({title:'訊息',message:'login fail!!'});
+                  }
+              });
+          }
+         
+          async function loadvoucher(fbid,fbtoken) {
               var finish = 0;
               var reroute = await GetRoute();
 
-              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t='+'&type='+tp+'&t=' + new Date().getTime(), {
+              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/voucherpages?key='+key+'&t='+'&type='+tp+'&fbid='+fbid+'&t=' + new Date().getTime(), {
                   body: null,
                   headers: {
-                      'content-type': 'application/json'
+                      'content-type': 'application/json',
+                      'fbid':fbid,
+                      'fbtoken':fbtoken
                   },
                   method: 'GET',
               }).then(function(response) {
@@ -158,10 +156,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                               query_str=query_str+'&site'+i+'='+site_arr[i]['url'];
                           }
                           query_str=query_str+'&nums='+site_arr.length;
-                          json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/multipagevouchers?key=' + key +'&type='+tp+ query_str, {
+                          json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/multipagevouchers?key=' + key +'&type='+tp+'&fbid='+fbid+ query_str, {
                                 body: null,
                                 headers: {
-                                    'content-type': 'application/json'
+                                    'content-type': 'application/json',
+                                    'fbid':fbid,
+                                    'fbtoken':fbtoken
                                 },
                                 method: 'GET',
                              }).then(function(response) {
@@ -250,7 +250,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               });          
           
 
-          };
+          }
       </script>
    </head>
    <body>
@@ -265,7 +265,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                <h1 class="h3 mb-3 font-weight-normal">蝦皮折價券資訊統整</h1>
                <p class="mt-2 text-muted">此網頁資料每分鐘更新一次(需自行手動刷新)</p>
                <p class="mb-5 text-muted">點擊各項折價券欄位即可查看詳細內容</p>
-               <div id="voucher-current">
+               <div id="fb-button" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-onlogin="fblogin();" data-use-continue-as="false" data-scope="public_profile,email"></div>
+               <p></p>
+               <div id="voucher-current" style="display:none">
                   <div class="progress bg-secondary">
                      <div id="loading-progress" class="progress-bar progress-bar-striped active" role="progressbar"
                           aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
