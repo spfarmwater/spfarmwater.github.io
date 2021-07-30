@@ -34,7 +34,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           var key = new URL(window.location.href).searchParams.get("key");
           var tp = new URL(window.location.href).searchParams.get("type");
           var voucher_data=[];
-          var sub = Math.floor(Math.random() * 2) + 1;
+          //var sub = Math.floor(Math.random() * 2) + 1;
+          var sub = 1;
           async function GetRoute() {
               return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                   var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
