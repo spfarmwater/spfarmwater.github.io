@@ -22,7 +22,8 @@
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163602881-6"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-163602881-6');</script>
       <script>
           var voucher_data=null;
-          var sub = Math.floor(Math.random() * 2) + 1;
+          //var sub = Math.floor(Math.random() * 2) + 1;
+          var sub = 1;
           async function GetRoute() {
               return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                   var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
