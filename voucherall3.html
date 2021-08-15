@@ -45,6 +45,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
               });
           }
+          window.onload = async function() {
+             bootbox.dialog({	
+                 title: '公告',
+                 message:'目前折扣碼通知網站已移致此處<a href="https://spvouchernotify.github.io">https://spvouchernotify.github.io</a>歡迎大家多多利用。',
+                 buttons: {	
+                     ok: {	
+                         label: "OK",	
+                         className: 'btn-primary'	
+                     }	
+                 }	
+             });
+          }
           
           function ShowCropImg(itemid,itemname,seedimg,subtitle,img){
               var max_w=window.innerWidth-50;
