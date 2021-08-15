@@ -122,7 +122,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
              });
           }
 
-          window.onload = async function() {
+             window.onload = async function() {
+             bootbox.dialog({	
+                 title: '公告',
+                 message:'目前折扣碼通知網站已移致此處<a href="https://spvouchernotify.github.io">https://spvouchernotify.github.io</a>歡迎大家多多利用。',
+                 buttons: {	
+                     ok: {	
+                         label: "OK",	
+                         className: 'btn-primary'	
+                     }	
+                 }	
+             });
               var reroute = await GetRoute();
 
               fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/bannervouchers?key='+key+'&t=' + new Date().getTime(), {
