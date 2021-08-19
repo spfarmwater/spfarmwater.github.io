@@ -78,8 +78,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   return response.json();
               }).then(async function(jo) {
                   
-                  document.getElementById('loading-progress').style.width=''+int(100/(jo.length+1))+'%';
-                  document.getElementById('loading-progress').innerHTML=''+int(100/(jo.length+1))+'%';
+                  document.getElementById('loading-progress').style.width=''+parseInt(100/(jo.length+1))+'%';
+                  document.getElementById('loading-progress').innerHTML=''+parseInt(100/(jo.length+1))+'%';
                   var C_ELEMENT = document.getElementById('voucher-current');
                   var origin = localStorage['origin']!=undefined ? JSON.parse(localStorage['origin']):[];
                   var count_progress_finish=0;
