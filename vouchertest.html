@@ -134,7 +134,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       json['voucher'].forEach(function(item){
                         vou_HTML='';
                         var i_arr=item['info'].split(',');
-                        vou_HTML=vou_HTML+'<tr><th scope="row">'+i_arr[0]+'<br>'+i_arr[1]+'<br>'+i_arr[2]+'</th><td><a href="'+item['info_url']+'" target="_blank">查看</a></td><td><a href="'+item['search_url']+'" target="_blank">查看</a></td></tr>';
+                        vou_HTML=vou_HTML+'<tr><th scope="row">'+i_arr[0]+'<br>起'+i_arr[1].split('~')[0]+'<br>迄'+i_arr[1].split('~')[1]+'<br>'+i_arr[2]+'</th><td><a href="'+item['info_url']+'" target="_blank">查看</a></td><td><a href="'+item['search_url']+'" target="_blank">查看</a></td></tr>';
                         ban_HTML=ban_HTML+vou_HTML;
                         voucher_data.push(item);
                         c_display++;
