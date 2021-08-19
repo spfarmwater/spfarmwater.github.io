@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-TW">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+      <meta name="description" content="">
+      <meta name="author" content="sp">
+      <meta name="Keywords" content="蝦蝦果園,蝦皮果園,澆水,站外澆水,蝦蝦果園澆水,站外澆水不求人,站外澆水小工具,站外澆水攻略">
+      <title>蝦皮折價券(測試)</title>
+      <!-- Bootstrap core CSS -->
+      <link href="https://spfarmwater.github.io/bootstrap.min.css" rel="stylesheet">
+      <!-- Favicons -->
+      <link rel="icon" href="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b">
+      <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+      <meta name="theme-color" content="#FCCC04">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W32PKMR');</script>
+<!-- End Google Tag Manager -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="popper.min.js"></script>
+      <script src="bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.8.2/countUp.min.js"></script>
+      <script src="https://www.gstatic.com/charts/loader.js"></script>
+      
+
+      <script>
+
+          var voucher_data=[];
+          //var sub = Math.floor(Math.random() * 2) + 1;
+          var sub = 1;
+          async function GetRoute() {
+              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
+                  var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
+                  var reroute = parseInt(respdate.getHours() / 12) + (respdate.getDate() % 2) * 2 + 1;
+                  console.log('reroute', reroute);
+                  return reroute;
+                  //console.log(new Date(response.headers.get('date').replace(' GMT','')).getHours());
+              });
+          }
+          window.onload = async function() {
+             document.getElementById('voucher-current').style.display='';
+             loadvoucher();
+          }
+          
+          function ShowCropImg(itemid,itemname,seedimg,subtitle,img){
+              var max_w=window.innerWidth-50;
+              var max_h=window.innerHeight-200;
+              e_title='['+itemid+'] '+'<img src="https://cf.shopee.tw/file/'+seedimg+'" alt="seed img" width="40" height="40">'+itemname+subtitle;
+              bootbox.dialog({
+                  title: e_title,
+                  message: '<img src="https://cf.shopee.tw/file/'+img+'" alt="crop img" style="max-width:'+max_w+'px;width:100%;max-height:'+max_h+'px;height:100%;" >',
+                  buttons: { 
+                      ok: {  
+                          label: "OK",   
+                          className: 'btn-primary'   
+                      }
+                  }
+              });    
+          }
+
+         
+          async function loadvoucher() {
+              var finish = 0;
+              var reroute = await GetRoute();
+
+              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/api/voucher/list/get', {
+                  body: null,
+                  headers: {
+                      'content-type': 'application/json'
+                  },
+                  method: 'GET',
+              }).then(function(response) {
+                  return response.json();
+              }).then(async function(jo) {
+                  
+                  document.getElementById('loading-progress').style.width=''+int(100/(jo.length+1))+'%';
+                  document.getElementById('loading-progress').innerHTML=''+int(100/(jo.length+1))+'%';
+                  var C_ELEMENT = document.getElementById('voucher-current');
+                  var origin = localStorage['origin']!=undefined ? JSON.parse(localStorage['origin']):[];
+                  var count_progress_finish=0;
+                  var C_HTML;
+                  C_HTML='';
+                  var promise_arr=[];
+                  var page_arr=[];
+
+                  
+
+                  jo.forEach(function(site){
+                  	  promise_arr.push(new Promise((resolve, reject) => {
+                          json=fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/api/voucher/page/get?page='+site, {
+                                body: null,
+                                headers: {
+                                    'content-type': 'application/json'
+                                },
+                                method: 'GET',
+                             }).then(function(response) {
+                                return response.json();
+                             }).then(function(j){
+                             	j.forEach(function(site){
+                             	    page_arr.push(site);
+                             	})
+                                //localStorage[site['url']]=JSON.stringify(j);
+                                resolve();
+                             }).catch(function(e){
+                                //localStorage.removeItem(site['url']);
+                                resolve();
+                             });
+                      }).then(() => {
+                          count_progress_finish++;
+                          var percent_progress=Math.round(count_progress_finish/(promise_arr.length+1)*90)+10;
+                          document.getElementById('loading-progress').style.width=''+percent_progress+'%';
+                          document.getElementById('loading-progress').innerHTML=''+percent_progress+'%';
+                      }));//promise
+                  });
+                   await Promise.all(promise_arr);  
+                   
+                   page_arr.forEach(function(site){
+                      var ban_HTML='';
+                      var c_display=0,f_display=0;
+                      var json;
+                      //if(localStorage[site['url']]==undefined){
+                      //   return;
+                      //}
+                      //json=JSON.parse(localStorage[site['url']]);
+                      json=site;
+                      ban_HTML='<h1 class="h5 mt-3 mb-0 font-weight-normal"><strong>'+json['title']+'(<a href="https://shopee.tw/m/'+json['url']+'" target="_blank">'+json['url']+'</a>)</strong></h1>';
+                      ban_HTML=ban_HTML+'<th scope="col">折價券資料</th><th scope="col">折價券資訊</th><th scope="col">可折抵商品</th></tr></thead>';
+                      ban_HTML=ban_HTML+'<tbody>';
+                      
+                      json['voucher'].forEach(function(item){
+                        vou_HTML='';
+                        vou_HTML=vou_HTML+'<tr><th scope="row">'+item['info']+'</th><td><a href="'+item['info_url']+'" target="_blank">查看</a></td><td><td><a href="'+item['search_url']+'" target="_blank">查看</a></td></tr>';
+                        ban_HTML=ban_HTML+vou_HTML;
+                        voucher_data.push(item);
+                        c_display++;
+                      });
+                      if(json['data']['current'].length==0&&json['data']['next'].length==0){
+                        ban_HTML=ban_HTML+'<td colspan="4" class="text-center">目前無資料</td>';
+                      }
+                      
+                      ban_HTML=ban_HTML+'</tbody></table>';
+                      if(c_display!=0||f_display!=0){
+                        C_HTML=C_HTML+ban_HTML;
+                      }
+                  });
+                  localStorage['origin']=JSON.stringify(jo);
+                  C_ELEMENT.innerHTML=C_HTML;
+
+                 
+              });          
+          
+
+          }
+      </script>
+   </head>
+   <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W32PKMR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+      <main role="main">
+         <section class="jumbotron text-center">
+            <div class="container" style="max-width:500px">
+               <img class="mb-4" src="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b" alt="" width="72" height="72">
+               <h1 class="h3 mb-3 font-weight-normal">蝦皮折價券資訊統整</h1>
+               <p class="mt-2 text-muted">為方便確認是否為惡意大量使用流量故目前設定為登入後才能查看資訊，登入資料僅使用賬戶識別碼做辨別其餘資訊皆未使用</p>
+               <p class="mt-2 text-muted">此網頁資料每分鐘更新一次(需自行手動刷新)</p>
+               <p class="mb-5 text-muted">點擊各項折價券欄位即可查看詳細內容</p>
+
+               <p></p>
+               <div id="voucher-current" style="display:none">
+                  <div class="progress bg-secondary">
+                     <div id="loading-progress" class="progress-bar progress-bar-striped active" role="progressbar"
+                          aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                        0%
+                     </div>
+                  </div>
+               </div>
+               <!--<h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>當前開放種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">code</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">所需水量</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-current">
+                     <tr>
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>即將開放種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">所需水量</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-future">
+                     <tr>
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>已領取完畢種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">所需水量</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-already">
+                     <tr>
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <h1 class="h5 mt-3 mb-3 font-weight-normal"><strong>過去開放種子</strong></h1>
+               <table class="table table-striped mb-5">
+                  <thead>
+                     <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">所需水量</th>
+                        <th scope="col">領取比率</th>
+                     </tr>
+                  </thead>
+                  <tbody id="seed-past">
+                     <tr>
+                        <td colspan="4" class="text-center">
+                           載入中,請稍後...
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>-->
+            </div>
+         </section>
+      </main>
+      <footer class="text-muted">
+         <div class="container">
+            <p></p>
+            <p></p>
+            <p class="float-right">
+               <a href="#">Back to top</a>
+            </p>
+            <p></p>
+            <p></p>
+         </div>
+      </footer>
+   </body>
+</html>
