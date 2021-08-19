@@ -133,7 +133,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       
                       json['voucher'].forEach(function(item){
                         vou_HTML='';
-                        vou_HTML=vou_HTML+'<tr><th scope="row">'+item['info']+'</th><td><a href="'+item['info_url']+'" target="_blank">查看</a></td><td><td><a href="'+item['search_url']+'" target="_blank">查看</a></td></tr>';
+                        vou_HTML=vou_HTML+'<tr><th scope="row">'+item['info']+'</th><td><a href="'+item['info_url']+'" target="_blank">查看</a></td><td><a href="'+item['search_url']+'" target="_blank">查看</a></td></tr>';
                         ban_HTML=ban_HTML+vou_HTML;
                         voucher_data.push(item);
                         c_display++;
