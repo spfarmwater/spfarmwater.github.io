@@ -101,9 +101,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                              }).then(function(response) {
                                 return response.json();
                              }).then(function(j){
-                             	j.forEach(function(site){
-                             	    page_arr.push(site);
-                             	})
+                            	    page_arr.push(j);
                                 //localStorage[site['url']]=JSON.stringify(j);
                                 resolve();
                              }).catch(function(e){
