@@ -84,11 +84,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   var origin = localStorage['origin']!=undefined ? JSON.parse(localStorage['origin']):[];
                   var count_progress_finish=0;
                   var C_HTML;
-                  C_HTML='<div class="accordion" id="accordionExample">';
+                  C_HTML='<h5>更新時間：'+new Date(jo['updatetime'])+'</h5><p></p><div class="accordion" id="accordionExample">';
                   var promise_arr=[];
                   var page_arr=[];
 
-                  
+                  jo=jo['data'];
 
                   jo.forEach(function(site){
                   	  promise_arr.push(new Promise((resolve, reject) => {
