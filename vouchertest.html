@@ -140,6 +140,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         vou_HTML='';
                         var i_arr=item['info'].split(',');
                         if(new Date().getTime()/1000<=item['starttime']){
+                          vou_HTML=vou_HTML+'<tr class="table-success">';
+                        }else if(item['endtime']-(new Date().getTime()/1000)<60*60){
                           vou_HTML=vou_HTML+'<tr class="table-warning">';
                         }else{
                           vou_HTML=vou_HTML+'<tr>';
