@@ -68,7 +68,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               var finish = 0;
               var reroute = await GetRoute();
 
-              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/api/voucher/list/get', {
+              fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/api/voucher/list/get?t='+new Date().getTime(), {
                   body: null,
                   headers: {
                       'content-type': 'application/json'
