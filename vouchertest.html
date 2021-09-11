@@ -159,15 +159,16 @@
                         
                         
                         
-                        if(new Date().getTime()/1000<=item['starttime']){
-                          vou_HTML=vou_HTML+'<tr class="table-info">';
-                        }else if(item['reedom']==true){
-                          vou_HTML=vou_HTML+'<tr class="table-danger">';
-                        }else if(item['endtime']-(new Date().getTime()/1000)<60*60){
-                          vou_HTML=vou_HTML+'<tr class="table-warning">';
-                        }else{
-                          vou_HTML=vou_HTML+'<tr>';
-                        }
+//                         if(new Date().getTime()/1000<=item['starttime']){
+//                           vou_HTML=vou_HTML+'<tr class="table-info">';
+//                         }else if(item['reedom']==true){
+//                           vou_HTML=vou_HTML+'<tr class="table-danger">';
+//                         }else if(item['endtime']-(new Date().getTime()/1000)<60*60){
+//                           vou_HTML=vou_HTML+'<tr class="table-warning">';
+//                         }else{
+//                           vou_HTML=vou_HTML+'<tr>';
+//                         }
+                        vou_HTML=vou_HTML+'<tr>';
                         vou_HTML=vou_HTML+'<td colspan="4" style="padding:0!important;"><div class="accordian-body collapse" id="collapse'+json['url']+'-'+v_index+'s'+'"><div style="margin:5%;">'+item['info'].split(',')[1]+'<br>'+item['terms']+'</div></div></td></tr>';
                         v_index=v_index+1;
                         ban_HTML=ban_HTML+vou_HTML;
