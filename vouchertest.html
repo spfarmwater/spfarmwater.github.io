@@ -153,7 +153,7 @@
                           vou_HTML=vou_HTML+'<tr>';
                         }
                          
-                        vou_HTML=vou_HTML+'<th scope="row">'+i_arr[0]+'<br>'+i_arr[2]+'</th><td align="center" valign="center"><a href="'+item['info_url']+'" target="_blank">查看</a></td><td align="center" valign="center"><a href="'+item['search_url']+'" target="_blank">查看</a></td>';
+                        vou_HTML=vou_HTML+'<th scope="row">'+i_arr[0]+'<br>'+i_arr[2]+'</th><td align="center" valign="center"><button class="btn btn-link" type="button" onclick=" window.open(\''+item['info_url']+'\',\'_blank\');">查看</button></td><td align="center" valign="center"><button class="btn btn-link" type="button" onclick=" window.open(\''+item['search_url']+'\',\'_blank\');">查看</button></td>';
                         vou_HTML=vou_HTML+'<td align="center" valign="center"><button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse'+json['url']+'-'+v_index+'s'+'">展開</button></td>';
                         vou_HTML=vou_HTML+'</tr>';
                         
