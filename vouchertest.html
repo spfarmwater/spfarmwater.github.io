@@ -10,7 +10,7 @@
       <!-- Bootstrap core CSS -->
       <link href="https://spfarmwater.github.io/bootstrap.min.css" rel="stylesheet">
       <!-- Favicons -->
-      <link rel="icon" href="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b">
+      <link rel="icon" href="https://cf.shopee.tw/file/4760f74ce2403a5e161cb95f37e23f16">
       <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
       <meta name="theme-color" content="#FCCC04">
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -36,7 +36,7 @@
           //var sub = Math.floor(Math.random() * 2) + 1;
           var sub = 1;
           async function GetRoute() {
-              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
+              return await fetch('https://spvouchernotify.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                   var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
                   var reroute = parseInt(respdate.getHours() / 12) + (respdate.getDate() % 2) * 2 + 1;
                   console.log('reroute', reroute);
@@ -69,6 +69,7 @@
           async function loadvoucher() {
               var finish = 0;
               var reroute = await GetRoute();
+              document.getElementById('loading-progress-text').innerHTML='正在獲取列表．．．';
 
               fetch('https://spfarmwater' + reroute + '-' + '1' + '.herokuapp.com/api/voucher/list/get?t='+new Date().getTime(), {
                   body: null,
@@ -114,6 +115,7 @@
                       }).then(() => {
                           count_progress_finish++;
                           var percent_progress=Math.round(count_progress_finish/(promise_arr.length+1)*90)+10;
+                          document.getElementById('loading-progress-text').innerHTML='取得 '+site+' ．．．';
                           document.getElementById('loading-progress').style.width=''+percent_progress+'%';
                           document.getElementById('loading-progress').innerHTML=''+percent_progress+'%';
                       }));//promise
@@ -143,6 +145,8 @@
                         var i_arr=item['info'].split(',');
                         if(new Date().getTime()/1000<=item['starttime']){
                           vou_HTML=vou_HTML+'<tr class="table-info">';
+                        }else if(item['reedom']==true){
+                          vou_HTML=vou_HTML+'<tr class="table-danger">';
                         }else if(item['endtime']-(new Date().getTime()/1000)<60*60){
                           vou_HTML=vou_HTML+'<tr class="table-warning">';
                         }else{
@@ -178,18 +182,20 @@
       <main role="main">
          <section class="jumbotron text-center">
             <div class="container" style="max-width:500px">
-               <img class="mb-4" src="https://cf.shopee.tw/file/38c0acf7ef5bf7b86542e1fbf1f3df2b" alt="" width="72" height="72">
-               <h1 class="h3 mb-3 font-weight-normal">蝦皮折價券資訊統整</h1>
+               <img class="mb-4" src="https://cf.shopee.tw/file/4760f74ce2403a5e161cb95f37e23f16" alt="" width="72" height="72">
+               <h1 class="h3 mb-3 font-weight-normal">蝦皮折價券統整</h1>
                
-               <p class="mt-2 text-muted">此網頁資料每分鐘更新一次(需自行手動刷新)</p>
+               <p class="mt-2 text-muted">此網頁將蝦皮官方當前公布的活動頁面所有折扣碼列出來，因為官放設計的頁面太冗長不易閱讀，故做一個自動統整網頁來方便讓大家使用。</p>
+               <p class="mt-2 text-muted">網頁資料為每分鐘更新一次(需自行手動刷新)</p>
                <br class="mt-2 text-muted">＊折扣碼前面標示"平"字表示蝦皮官方提供折扣碼，標示"店"字表示店家提供折扣碼，標示"*"表示須於活動頁面領取方可使用</br>
-               <br class="mb-5 text-muted">＊底色淡藍色表示折扣碼使用時間尚未開放，黃色表示折扣碼使用期限小於一小時</br>
+               <br class="mb-5 text-muted">＊底色淡藍色表示折扣碼使用時間尚未開放，黃色表示折扣碼使用期限小於一小時，紅色則表示已使用完畢</br>
                <br class="mt-2 text-muted"><font color="#FF0000">＊因蝦皮網頁設計問題， 查看折扣碼詳細資訊網址需在電腦版上才可查看，手機版則會顯示網頁不存在；查看可使用商品在電腦版需登入帳號才可查看，在手機版則不必登入帳號即可查看。</font></br>
             </div>
 
                <p></p>
             <div class="container">
                <div id="voucher-current">
+                  <div id="loading-progress-text"></div>
                   <div class="progress bg-secondary">
                      <div id="loading-progress" class="progress-bar progress-bar-striped active" role="progressbar"
                           aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
