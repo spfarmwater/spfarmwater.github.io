@@ -154,9 +154,21 @@
                         }
                          
                         vou_HTML=vou_HTML+'<th scope="row">'+i_arr[0]+'<br>'+i_arr[2]+'</th><td align="center" valign="center"><a href="'+item['info_url']+'" target="_blank">查看</a></td><td align="center" valign="center"><a href="'+item['search_url']+'" target="_blank">查看</a></td>';
-                        vou_HTML=vou_HTML+'<td align="center" valign="center"><button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapse'+json['url']+'-'+v_index+'s'+'" aria-expanded="false" aria-controls="collapse'+json['url']+'-'+v_index+'s'+'">展開</button></td>';
+                        vou_HTML=vou_HTML+'<td align="center" valign="center"><button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse'+json['url']+'-'+v_index+'s'+'">展開</button></td>';
                         vou_HTML=vou_HTML+'</tr>';
-                        vou_HTML=vou_HTML+'<div class="collapse" id="collapse'+json['url']+'-'+v_index+'s'+'"><div class="card card-body">'+item['terms']+'</div></div>';
+                        
+                        
+                        
+                        if(new Date().getTime()/1000<=item['starttime']){
+                          vou_HTML=vou_HTML+'<tr class="table-info">';
+                        }else if(item['reedom']==true){
+                          vou_HTML=vou_HTML+'<tr class="table-danger">';
+                        }else if(item['endtime']-(new Date().getTime()/1000)<60*60){
+                          vou_HTML=vou_HTML+'<tr class="table-warning">';
+                        }else{
+                          vou_HTML=vou_HTML+'<tr>';
+                        }
+                        vou_HTML=vou_HTML+'<td colspan="4" class="hiddenRow"><div class="accordian-body collapse" id="collapse'+json['url']+'-'+v_index+'s'+'">'+item['terms']+'</div></td></tr>';
                         v_index=v_index+1;
                         ban_HTML=ban_HTML+vou_HTML;
                         voucher_data.push(item);
