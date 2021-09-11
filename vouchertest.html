@@ -36,7 +36,7 @@
           //var sub = Math.floor(Math.random() * 2) + 1;
           var sub = 1;
           async function GetRoute() {
-              return await fetch('https://spvouchernotify.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
+              return await fetch('https://spfarmwater.github.io/empty.html?t=' + new Date().getTime()).then(function(response) {
                   var respdate = new Date(response.headers.get('date').replace(' GMT', ''));
                   var reroute = parseInt(respdate.getHours() / 12) + (respdate.getDate() % 2) * 2 + 1;
                   console.log('reroute', reroute);
