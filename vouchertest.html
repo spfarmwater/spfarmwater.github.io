@@ -168,7 +168,7 @@
                         }else{
                           vou_HTML=vou_HTML+'<tr>';
                         }
-                        vou_HTML=vou_HTML+'<td colspan="4" style="padding:0!important;"><div class="accordian-body collapse" style="margin:5%;" id="collapse'+json['url']+'-'+v_index+'s'+'">'+item['info'].split(',')[1]+'<br>'+item['terms']+'</div></td></tr>';
+                        vou_HTML=vou_HTML+'<td colspan="4" style="padding:0!important;"><div class="accordian-body collapse" id="collapse'+json['url']+'-'+v_index+'s'+'"><div style="margin:5%;">'+item['info'].split(',')[1]+'<br>'+item['terms']+'</div></div></td></tr>';
                         v_index=v_index+1;
                         ban_HTML=ban_HTML+vou_HTML;
                         voucher_data.push(item);
